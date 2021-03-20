@@ -8,7 +8,6 @@ import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
 import postRoutes from './routes/post'
 import err from './middleware/errorMiddleware'
-import consola from 'consola'
 
 class App {
 
@@ -41,5 +40,5 @@ class App {
 const port = process.env.PORT || 3005
 const app = new App().app
 app.listen(port, () => {
-    consola.success({ message: `Server running on localhost:${port}`, badge: false })
+    console.log(`Server running on localhost:${port}`)
 })

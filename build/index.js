@@ -12,7 +12,6 @@ const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const post_1 = __importDefault(require("./routes/post"));
 const errorMiddleware_1 = __importDefault(require("./middleware/errorMiddleware"));
-const consola_1 = __importDefault(require("consola"));
 class App {
     constructor() {
         this.app = express_1.default();
@@ -37,5 +36,5 @@ class App {
 const port = process.env.PORT || 3005;
 const app = new App().app;
 app.listen(port, () => {
-    consola_1.default.success({ message: `Server running on localhost:${port}`, badge: false });
+    console.log(`Server running on localhost:${port}`);
 });
