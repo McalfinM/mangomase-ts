@@ -26,6 +26,7 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "@tsed/exceptions": "^6.34.3",
     "accesscontrol": "^2.2.1",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -36,6 +37,7 @@
     "express-validator": "^6.9.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.11",
+    "slugify": "^1.4.7",
     "uuid": "^8.3.2"
   }
 }

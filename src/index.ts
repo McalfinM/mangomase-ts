@@ -3,45 +3,43 @@ import bodyParser from 'body-parser'
 import compression from 'compression'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import  './database'
+import './database'
 import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
+import postRoutes from './routes/post'
 import err from './middleware/errorMiddleware'
 import consola from 'consola'
 
-class App{
+class App {
 
-    public app:Application;
+    public app: Application;
 
-    constructor()
-    {
+    constructor() {
         this.app = express()
         this.plugins()
         this.routes()
         this.errorHandling()
     }
 
-    protected plugins()
-    {
+    protected plugins() {
         this.app.use(bodyParser.json())
         this.app.use(compression())
         this.app.use(cors())
     }
 
-    protected errorHandling()
-    {
+    protected errorHandling() {
         this.app.use(err)
     }
 
-    protected routes():void
-    {
+    protected routes(): void {
         this.app.use('/api/v1/auth', authRoutes)
         this.app.use('/api/v1/users', userRoutes)
+        this.app.use('/api/v1/post', postRoutes)
     }
 
 }
-    const port = process.env.PORT || 3004
-    const app = new App().app
-    app.listen(port,()=>{
-        consola.success({ message: `Server running on localhost:${port}`, badge: false })
-    })
+const port = process.env.PORT || 3005
+const app = new App().app
+app.listen(port, () => {
+    consola.success({ message: `Server running on localhost:${port}`, badge: false })
+})
