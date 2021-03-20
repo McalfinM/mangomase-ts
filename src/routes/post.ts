@@ -5,7 +5,7 @@ import { auth } from '../middleware/authMiddleware'
 
 class postRoutes extends BaseRoutes {
     public routes(): void {
-        // this.router.get('/',postController)
+        this.router.get('/', postController.getAll)
         this.router.post('/', postController.create)
         this.router.patch('/:uuid', postController.update)
         this.router.get('/:uuid', postController.findOne)

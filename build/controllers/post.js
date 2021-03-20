@@ -17,6 +17,17 @@ const updatePostRequest_1 = __importDefault(require("../request/updatePostReques
 const post_1 = __importDefault(require("../services/post"));
 class PostController {
     constructor() {
+        this.getAll = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = req.app.locals.credentials;
+                const query = req.query;
+                const data = yield post_1.default.getAll(query);
+                return res.status(200).json(data);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
         this.create = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = req.app.locals.credentials;

@@ -18,6 +18,14 @@ const uuid_1 = require("uuid");
 const slugify_1 = __importDefault(require("slugify"));
 const exceptions_1 = require("@tsed/exceptions");
 class PostService {
+    constructor() {
+        this.getAll = (query) => __awaiter(this, void 0, void 0, function* () {
+            const post = yield post_2.default.index(query);
+            if (!post)
+                throw new exceptions_1.BadRequest('Post Not Found');
+            return post;
+        });
+    }
     create(request, user) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return __awaiter(this, void 0, void 0, function* () {

@@ -5,6 +5,16 @@ import PostService from "../services/post";
 
 class PostController {
 
+    getAll = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = req.app.locals.credentials
+            const query = req.query
+            const data = await PostService.getAll(query)
+            return res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
+    }
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const user = req.app.locals.credentials

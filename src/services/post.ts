@@ -9,6 +9,11 @@ import { BadRequest } from "@tsed/exceptions";
 
 class PostService {
 
+    getAll = async (query: { [k: string]: any }) => {
+        const post = await PostRepository.index(query)
+        if (!post) throw new BadRequest('Post Not Found')
+        return post
+    }
     async create(request: CreatePostRequest, user: { [k: string]: any }): Promise<PostEntity> {
         const postEntity: PostEntity = new PostEntity({
             uuid: uuid(),
