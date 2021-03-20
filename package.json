@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"tsc -w\" \"nodemon build/index.js\"",
-    "start": "node src/index.ts",
+    "start": "node build/index.js",
     "ts": "rm -rf build/ && tsc -w",
     "build": "npx tsc",
     "gcp-build": "tsc -p",
