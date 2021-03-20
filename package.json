@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"tsc -w\" \"nodemon build/index.js\"",
-    "start": "node build/index.js",
+    "start": "ts-node src/index.ts",
     "ts": "rm -rf build/ && tsc -w",
     "build": "npx tsc",
     "gcp-build": "tsc -p",
@@ -40,6 +40,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.11",
     "slugify": "^1.4.7",
+    "ts-node": "^9.1.1",
     "uuid": "^8.3.2"
   }
 }
