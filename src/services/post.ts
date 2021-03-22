@@ -2,7 +2,7 @@ import PostEntity from "../entities/post";
 import PostRepository from "../repositories/post"
 import CreatePostRequest from "../request/createPostRequest";
 import UpdatePostRequest from "../request/updatePostRequest"
-import { v4 as uuid } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 import { ErrorNotFound } from "../utils/errors";
 import { BadRequest } from "@tsed/exceptions";
@@ -14,23 +14,24 @@ class PostService {
         if (!post) throw new BadRequest('Post Not Found')
         return post
     }
-    async create(request: CreatePostRequest, user: { [k: string]: any }): Promise<PostEntity> {
+    async create(request: CreatePostRequest, user: { [k: string]: any }, image: any): Promise<PostEntity> {
+
         const postEntity: PostEntity = new PostEntity({
-            uuid: uuid(),
+            uuid: uuidv4(),
             user_uuid: '7gd74-5895-59gf-589njn54-5945j4nj',
             title: request.title ?? '',
             content: request.content ?? '',
-            slug: slugify(request.title ?? ''),
-            clan: request.clan ?? '',
+            slug: slugify(request.title + '-' + uuidv4()),
+            clan_uuid: request.clan_uuid ?? '',
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
-            image: request.image ?? 'pet.jpg',
+            image: image ?? 'pet.jpg',
             for_adoption: request.for_adoption ?? false,
             want_adoption: request.want_adoption ?? false,
             created_at: new Date,
             updated_at: null
         })
-        const post = PostRepository.create(postEntity)
+        const post = await PostRepository.create(postEntity)
         return post
     }
 
@@ -40,8 +41,8 @@ class PostService {
             user_uuid: '7gd74-5895-59gf-589njn54-5945j4nj',
             title: request.title ?? '',
             content: request.content ?? '',
-            slug: slugify(request.title ?? ''),
-            clan: request.clan ?? '',
+            slug: slugify(request.title + '-' + uuidv4()),
+            clan_uuid: request.clan_uuid ?? '',
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
             image: request.image ?? 'pet.jpg',

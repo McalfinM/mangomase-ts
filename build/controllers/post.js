@@ -31,7 +31,9 @@ class PostController {
         this.create = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = req.app.locals.credentials;
-                const data = yield post_1.default.create(new createPostRequest_1.default(req.body), user);
+                console.log(req, 'ini file');
+                const image = req.file.path;
+                const data = yield post_1.default.create(new createPostRequest_1.default(req.body), user, image);
                 return res.status(201).json({ success: true });
             }
             catch (error) {

@@ -8,9 +8,11 @@ const PostSchema = new mongoose_1.Schema({
     content: { type: String },
     slug: { type: String },
     age: { type: Number },
-    clan: { type: String },
+    clan_uuid: { type: String },
     category: { type: String },
+    animal_type: { type: String },
     image: { type: String },
+    comment: { type: Array },
     deleted_at: { type: Date },
     created_at: { type: Date },
     updated_at: { type: Date }

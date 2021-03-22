@@ -4,7 +4,7 @@ class CreatePostRequest {
     protected _content: string;
     protected _slug: string;
     protected _age: number
-    protected _clan: string;
+    protected _clan_uuid: string;
     protected _for_adoption: boolean;
     protected _want_adoption: boolean;
     protected _animal_type: string;
@@ -16,7 +16,7 @@ class CreatePostRequest {
         content: string
         slug: string
         age: number
-        clan: string
+        clan_uuid: string
         animal_type: string
         for_adoption: boolean
         want_adoption: boolean
@@ -27,7 +27,7 @@ class CreatePostRequest {
         this._content = body.content;
         this._slug = body.slug;
         this._age = body.age;
-        this._clan = body.clan;
+        this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
         this._for_adoption = body.for_adoption;
         this._want_adoption = body.want_adoption;
@@ -49,8 +49,8 @@ class CreatePostRequest {
     get age(): number {
         return this._age
     }
-    get clan(): string | null {
-        return this._clan
+    get clan_uuid(): string | null {
+        return this._clan_uuid
     }
     get for_adoption(): boolean | null {
         return this._for_adoption

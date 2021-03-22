@@ -1,5 +1,5 @@
 import BaseEntity from "./baseEntity";
-import { IPostEntity } from './interfaces/post'
+import { IPostEntity, IComment } from './interfaces/post'
 
 class PostEntity extends BaseEntity {
     protected id?: string | null
@@ -9,11 +9,12 @@ class PostEntity extends BaseEntity {
     protected content?: string | null
     protected slug?: string | null
     protected age?: number | null
-    protected clan?: string | null
+    protected clan_uuid?: string | null
     protected animal_type?: string | null
     protected for_adoption?: boolean | null
     protected want_adoption?: boolean | null
     protected image?: string | null
+    protected comment?: IComment[] | []
     protected deleted_at?: Date | null
     protected created_at?: Date | null
     protected updated_at?: Date | null
@@ -27,11 +28,12 @@ class PostEntity extends BaseEntity {
         this.content = params.content;
         this.slug = params.slug;
         this.age = params.age;
-        this.clan = params.clan;
+        this.clan_uuid = params.clan_uuid;
         this.animal_type = params.animal_type;
         this.for_adoption = params.for_adoption;
         this.want_adoption = params.want_adoption;
         this.image = params.image;
+        this.comment = params.comment;
         this.deleted_at = params.deleted_at;
         this.created_at = params.created_at;
         this.updated_at = params.updated_at;
@@ -106,12 +108,12 @@ class PostEntity extends BaseEntity {
         this.age = age;
     }
 
-    get getClan(): string | null | undefined {
-        return this.clan;
+    get getClanUuid(): string | null | undefined {
+        return this.clan_uuid;
     }
 
-    set setClan(clan: string) {
-        this.clan = clan;
+    set setClanUuid(clan_uuid: string) {
+        this.clan_uuid = clan_uuid;
     }
 
     get getAnimalType(): string | null | undefined {
@@ -128,6 +130,14 @@ class PostEntity extends BaseEntity {
 
     set setImage(image: string) {
         this.image = image;
+    }
+
+    get getComment(): IComment[] | [] | any {
+        return this.comment;
+    }
+
+    set setComment(comment: IComment[] | []) {
+        this.comment = comment;
     }
 
     get getDeletedAt(): Date | null | undefined {
@@ -156,18 +166,18 @@ class PostEntity extends BaseEntity {
 
     toJson(): object {
         return {
-            id: this.id,
             uuid: this.uuid,
             user_uuid: this.user_uuid,
             title: this.title,
             content: this.content,
             slug: this.slug,
             age: this.age,
-            clan: this.clan,
+            clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
             for_adaption: this.for_adoption,
             want_adaption: this.want_adoption,
             image: this.image,
+            comment: this.comment,
             created_at: this.created_at,
             updated_at: this.updated_at,
         };
