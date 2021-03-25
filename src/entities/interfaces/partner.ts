@@ -3,7 +3,7 @@ export interface IPartner {
     uuid?: string | null
     user_uuid?: string | null
     name?: string | null
-    desription?: string | null
+    description?: string | null
     hours_close_open?: string | null
     image?: string | null
     category?: string | null

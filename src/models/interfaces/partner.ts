@@ -4,7 +4,8 @@ export interface IPartner extends Document {
     uuid?: string | null
     user_uuid?: string | null
     name?: string | null
-    desription?: string | null
+    description?: string | null
+    slug?: string | null
     hours_close_open?: string | null
     image?: string | null
     category?: string | null

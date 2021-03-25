@@ -4,7 +4,7 @@ class CreatePartnerRequest {
     constructor(body) {
         this._user_uuid = body.user_uuid;
         this._name = body.name;
-        this._desription = body.desription;
+        this._description = body.description;
         this._hours_close_open = body.hours_close_open;
         this._image = body.image;
         this._category = body.category;
@@ -18,8 +18,8 @@ class CreatePartnerRequest {
     get name() {
         return this._name;
     }
-    get desription() {
-        return this._desription;
+    get description() {
+        return this._description;
     }
     get hours_close_open() {
         return this._hours_close_open;

@@ -159,7 +159,7 @@ class PostRepository {
             }
             // @ts-ignore
             options.sort = sortVal;
-            return Post_1.default.find(Object.assign({}, queryVal), { "comment": { $elemMatch: [{ deleted_at: null }, { deleted_at: undefined }] } }, options)
+            return Post_1.default.find(Object.assign({}, queryVal), { $or: [{ deleted_at: null }, { deleted_at: undefined }] }, options)
                 .then(result => {
                 return result.map(data => {
                     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;

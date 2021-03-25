@@ -6,7 +6,7 @@ class PartnerEntity extends BaseEntity {
     protected uuid?: string | null;
     protected user_uuid?: string | null;
     protected name?: string | null;
-    protected desription?: string | null;
+    protected description?: string | null;
     protected hours_close_open?: string | null;
     protected image?: string | null;
     protected category?: string | null;
@@ -19,7 +19,7 @@ class PartnerEntity extends BaseEntity {
         this.uuid = params.uuid;
         this.user_uuid = params.user_uuid;
         this.name = params.name;
-        this.desription = params.desription;
+        this.description = params.description;
         this.hours_close_open = params.hours_close_open;
         this.image = params.image;
         this.category = params.category;
@@ -60,12 +60,12 @@ class PartnerEntity extends BaseEntity {
         this.name = name
     }
 
-    get getDesription(): string | null | undefined {
-        return this.desription
+    get getdescription(): string | null | undefined {
+        return this.description
     }
 
-    set setDesription(desription: string) {
-        this.desription = desription
+    set setdescription(description: string) {
+        this.description = description
     }
 
     get getHoursCloseOpen(): string | null | undefined {
@@ -121,7 +121,7 @@ class PartnerEntity extends BaseEntity {
             uuid: this.uuid,
             user_uuid: this.user_uuid,
             name: this.name,
-            desription: this.desription,
+            description: this.description,
             hours_close_open: this.hours_close_open,
             image: this.image,
             category: this.category,

@@ -143,7 +143,7 @@ class PostRepository {
         return Post.find(
 
             { ...queryVal },
-            { "comment": { $elemMatch: [{ deleted_at: null }, { deleted_at: undefined }] } },
+            { $or: [{ deleted_at: null }, { deleted_at: undefined }] },
             options,
         )
             .then(result => {

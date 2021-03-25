@@ -1,27 +1,27 @@
 class CreatePartnerRequest {
     protected _user_uuid: string
     protected _name: string
-    protected _desription: string
+    protected _description: string
     protected _hours_close_open: string
     protected _image: string
     protected _category: string
-    protected _created_at: string
-    protected _updated_at: string
-    protected _deleted_at: string
+    protected _created_at: Date
+    protected _updated_at: Date
+    protected _deleted_at: Date
     constructor(body: {
         user_uuid: string
         name: string
-        desription: string
+        description: string
         hours_close_open: string
         image: string
         category: string
-        created_at: string
-        updated_at: string
-        deleted_at: string
+        created_at: Date
+        updated_at: Date
+        deleted_at: Date
     }) {
         this._user_uuid = body.user_uuid;
         this._name = body.name
-        this._desription = body.desription
+        this._description = body.description
         this._hours_close_open = body.hours_close_open
         this._image = body.image
         this._category = body.category
@@ -37,8 +37,8 @@ class CreatePartnerRequest {
     get name(): string | null {
         return this._name
     }
-    get desription(): string | null {
-        return this._desription
+    get description(): string | null {
+        return this._description
     }
     get hours_close_open(): string | null {
         return this._hours_close_open
@@ -49,13 +49,13 @@ class CreatePartnerRequest {
     get category(): string | null {
         return this._category
     }
-    get created_at(): string | null {
+    get created_at(): Date | null {
         return this._created_at
     }
-    get updated_at(): string | null {
+    get updated_at(): Date | null {
         return this._updated_at
     }
-    get deleted_at(): string | null {
+    get deleted_at(): Date | null {
         return this._deleted_at
     }
 
