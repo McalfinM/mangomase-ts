@@ -1,3 +1,4 @@
+import { BadRequest } from "@tsed/exceptions";
 import { NextFunction, Request, Response } from "express";
 import CreatePostRequest from "../request/createPostRequest";
 import UpdatePostRequest from "../request/updatePostRequest";
@@ -18,7 +19,9 @@ class PostController {
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const user = req.app.locals.credentials
-            const data = await PostService.create(new CreatePostRequest(req.body), user)
+            console.log(req, 'ini file')
+            const image = req.file.path
+            const data = await PostService.create(new CreatePostRequest(req.body), user, image)
             return res.status(201).json({ success: true })
         } catch (error) {
             next(error)

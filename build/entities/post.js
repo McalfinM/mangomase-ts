@@ -14,11 +14,12 @@ class PostEntity extends baseEntity_1.default {
         this.content = params.content;
         this.slug = params.slug;
         this.age = params.age;
-        this.clan = params.clan;
+        this.clan_uuid = params.clan_uuid;
         this.animal_type = params.animal_type;
         this.for_adoption = params.for_adoption;
         this.want_adoption = params.want_adoption;
         this.image = params.image;
+        this.comment = params.comment;
         this.deleted_at = params.deleted_at;
         this.created_at = params.created_at;
         this.updated_at = params.updated_at;
@@ -78,11 +79,11 @@ class PostEntity extends baseEntity_1.default {
     set setAge(age) {
         this.age = age;
     }
-    get getClan() {
-        return this.clan;
+    get getClanUuid() {
+        return this.clan_uuid;
     }
-    set setClan(clan) {
-        this.clan = clan;
+    set setClanUuid(clan_uuid) {
+        this.clan_uuid = clan_uuid;
     }
     get getAnimalType() {
         return this.animal_type;
@@ -95,6 +96,12 @@ class PostEntity extends baseEntity_1.default {
     }
     set setImage(image) {
         this.image = image;
+    }
+    get getComment() {
+        return this.comment;
+    }
+    set setComment(comment) {
+        this.comment = comment;
     }
     get getDeletedAt() {
         return this.deleted_at;
@@ -116,18 +123,18 @@ class PostEntity extends baseEntity_1.default {
     }
     toJson() {
         return {
-            id: this.id,
             uuid: this.uuid,
             user_uuid: this.user_uuid,
             title: this.title,
             content: this.content,
             slug: this.slug,
             age: this.age,
-            clan: this.clan,
+            clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
             for_adaption: this.for_adoption,
             want_adaption: this.want_adoption,
             image: this.image,
+            comment: this.comment,
             created_at: this.created_at,
             updated_at: this.updated_at,
         };

@@ -28,7 +28,7 @@ const Post_1 = __importDefault(require("../models/Post"));
 class PostRepository {
     constructor() {
         this.create = (postEntity) => __awaiter(this, void 0, void 0, function* () {
-            var _a, _b;
+            var _a, _b, _c;
             const post = yield Post_1.default.create({
                 uuid: postEntity.getUuid,
                 user_uuid: postEntity.getUserUuid,
@@ -36,19 +36,20 @@ class PostRepository {
                 content: postEntity.getContent,
                 slug: postEntity.getSlug,
                 age: postEntity.getAge,
-                clan: postEntity.getClan,
+                clan: postEntity.getClanUuid,
                 animal_type: postEntity.getAnimalType,
                 for_adoption: postEntity.getForAdoption,
                 want_adoption: postEntity.getWantdoption,
                 image: postEntity.getImage,
                 created_at: (_a = postEntity.getCreatedAt) !== null && _a !== void 0 ? _a : new Date,
                 updated_at: (_b = postEntity.getUpdatedAt) !== null && _b !== void 0 ? _b : null,
+                deleted_at: (_c = postEntity.getDeletedAt) !== null && _c !== void 0 ? _c : null
             });
             postEntity.setId = post.id;
             return postEntity;
         });
         this.update = (postEntity, user) => __awaiter(this, void 0, void 0, function* () {
-            var _c;
+            var _d;
             console.log(postEntity.getUuid, 'ini adalah post');
             return yield Post_1.default.updateOne({ uuid: postEntity.getUuid }, {
                 user_uuid: postEntity.getUserUuid,
@@ -56,13 +57,34 @@ class PostRepository {
                 content: postEntity.getContent,
                 slug: postEntity.getSlug,
                 age: postEntity.getAge,
-                clan: postEntity.getClan,
+                clan: postEntity.getClanUuid,
                 animal_type: postEntity.getAnimalType,
                 for_adoption: postEntity.getForAdoption,
                 want_adoption: postEntity.getWantdoption,
                 image: postEntity.getImage,
-                updated_at: (_c = postEntity.getUpdatedAt) !== null && _c !== void 0 ? _c : null,
+                updated_at: (_d = postEntity.getUpdatedAt) !== null && _d !== void 0 ? _d : null,
             });
+        });
+    }
+    findSlug(slug) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const postEntity = yield Post_1.default.findOne({ slug: slug });
+            return postEntity ? new post_1.default({
+                uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.uuid,
+                user_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.user_uuid,
+                title: postEntity === null || postEntity === void 0 ? void 0 : postEntity.title,
+                content: postEntity === null || postEntity === void 0 ? void 0 : postEntity.content,
+                slug: postEntity === null || postEntity === void 0 ? void 0 : postEntity.slug,
+                clan_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.clan_uuid,
+                animal_type: postEntity === null || postEntity === void 0 ? void 0 : postEntity.animal_type,
+                age: postEntity === null || postEntity === void 0 ? void 0 : postEntity.age,
+                image: postEntity === null || postEntity === void 0 ? void 0 : postEntity.image,
+                for_adoption: postEntity === null || postEntity === void 0 ? void 0 : postEntity.for_adoption,
+                want_adoption: postEntity === null || postEntity === void 0 ? void 0 : postEntity.want_adoption,
+                created_at: postEntity === null || postEntity === void 0 ? void 0 : postEntity.created_at,
+                updated_at: (_a = postEntity === null || postEntity === void 0 ? void 0 : postEntity.updated_at) !== null && _a !== void 0 ? _a : null,
+            }) : null;
         });
     }
     findOne(uuid) {
@@ -78,7 +100,7 @@ class PostRepository {
                 title: postEntity === null || postEntity === void 0 ? void 0 : postEntity.title,
                 content: postEntity === null || postEntity === void 0 ? void 0 : postEntity.content,
                 slug: postEntity === null || postEntity === void 0 ? void 0 : postEntity.slug,
-                clan: postEntity === null || postEntity === void 0 ? void 0 : postEntity.clan,
+                clan_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.clan_uuid,
                 animal_type: postEntity === null || postEntity === void 0 ? void 0 : postEntity.animal_type,
                 age: postEntity === null || postEntity === void 0 ? void 0 : postEntity.age,
                 image: postEntity === null || postEntity === void 0 ? void 0 : postEntity.image,
@@ -137,10 +159,10 @@ class PostRepository {
             }
             // @ts-ignore
             options.sort = sortVal;
-            return Post_1.default.find(Object.assign({}, queryVal), {}, options)
+            return Post_1.default.find(Object.assign({}, queryVal), { $or: [{ deleted_at: null }, { deleted_at: undefined }] }, options)
                 .then(result => {
                 return result.map(data => {
-                    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+                    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
                     return new post_1.default({
                         id: data === null || data === void 0 ? void 0 : data._id,
                         uuid: (_a = data === null || data === void 0 ? void 0 : data.uuid) !== null && _a !== void 0 ? _a : '',
@@ -149,13 +171,15 @@ class PostRepository {
                         content: (_d = data === null || data === void 0 ? void 0 : data.content) !== null && _d !== void 0 ? _d : '',
                         slug: (_e = data === null || data === void 0 ? void 0 : data.slug) !== null && _e !== void 0 ? _e : '',
                         age: (_f = data === null || data === void 0 ? void 0 : data.age) !== null && _f !== void 0 ? _f : 0,
-                        clan: (_g = data === null || data === void 0 ? void 0 : data.clan) !== null && _g !== void 0 ? _g : '',
+                        clan_uuid: (_g = data === null || data === void 0 ? void 0 : data.clan_uuid) !== null && _g !== void 0 ? _g : '',
                         animal_type: (_h = data === null || data === void 0 ? void 0 : data.animal_type) !== null && _h !== void 0 ? _h : '',
                         for_adoption: (_j = data === null || data === void 0 ? void 0 : data.for_adoption) !== null && _j !== void 0 ? _j : false,
                         want_adoption: (_k = data === null || data === void 0 ? void 0 : data.want_adoption) !== null && _k !== void 0 ? _k : false,
                         image: (_l = data === null || data === void 0 ? void 0 : data.image) !== null && _l !== void 0 ? _l : 'animal.jpg',
-                        created_at: (_m = data === null || data === void 0 ? void 0 : data.created_at) !== null && _m !== void 0 ? _m : new Date,
-                        updated_at: (_o = data === null || data === void 0 ? void 0 : data.updated_at) !== null && _o !== void 0 ? _o : new Date,
+                        comment: (_m = data === null || data === void 0 ? void 0 : data.comment) !== null && _m !== void 0 ? _m : [],
+                        created_at: (_o = data === null || data === void 0 ? void 0 : data.created_at) !== null && _o !== void 0 ? _o : new Date,
+                        updated_at: (_p = data === null || data === void 0 ? void 0 : data.updated_at) !== null && _p !== void 0 ? _p : new Date,
+                        deleted_at: (_q = data === null || data === void 0 ? void 0 : data.deleted_at) !== null && _q !== void 0 ? _q : null
                     });
                 });
             })
