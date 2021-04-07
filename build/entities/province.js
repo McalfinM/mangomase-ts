@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const baseEntity_1 = __importDefault(require("./baseEntity"));
-class VehicleBrandEntity extends baseEntity_1.default {
+class ProvinceEntity extends baseEntity_1.default {
     constructor(params) {
         super();
         this.id = params.id;
         this.uuid = params.uuid;
-        this.vehicle_type_uuid = params.vehicle_type_uuid;
+        this.code = params.code;
         this.name = params.name;
     }
     get getId() {
@@ -25,25 +25,24 @@ class VehicleBrandEntity extends baseEntity_1.default {
     set setUuid(uuid) {
         this.uuid = uuid;
     }
-    get getVehicleTypeUuid() {
-        return this.vehicle_type_uuid;
-    }
-    set setVehicleTypeUuid(vehicle_type_uuid) {
-        this.vehicle_type_uuid = vehicle_type_uuid;
-    }
     get getName() {
         return this.name;
     }
     set setName(name) {
         this.name = name;
     }
+    get getCode() {
+        return this.code;
+    }
+    set setCode(code) {
+        this.code = code;
+    }
     toJson() {
         return {
-            id: this.id,
             uuid: this.uuid,
-            vehicle_type_uuid: this.vehicle_type_uuid,
-            name: this.name
+            code: this.code,
+            name: this.name,
         };
     }
 }
-exports.default = VehicleBrandEntity;
+exports.default = ProvinceEntity;

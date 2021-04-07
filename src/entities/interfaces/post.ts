@@ -11,17 +11,19 @@ export interface IComment {
 
 export interface IPostEntity {
     id?: string | null;
-    uuid?: string | null;
+    uuid: string;
     user_uuid?: string | null;
-    title?: string | null;
-    content?: string | null;
-    slug?: string | null;
+    title?: string
+    content?: string
+    slug?: string
     age?: number | null;
+    category?: string;
     clan_uuid?: string | null;
+    clan?: { [k: string]: any } | null
     animal_type?: string | null;
     image?: string | null;
-    want_adoption?: boolean | null;
-    for_adoption?: boolean | null;
+    want_adoption?: boolean
+    for_adoption?: boolean
     comment?: IComment[] | []
     deleted_at?: Date | null
     created_at?: Date | null;

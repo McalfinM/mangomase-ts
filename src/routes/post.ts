@@ -23,7 +23,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
 }
 class postRoutes extends BaseRoutes {
     public routes(): void {
-        this.router.get('/', postController.getAll)
+        this.router.get('/', postController.findAll)
         this.router.post('/', multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'), postController.create)
         this.router.patch('/:uuid', postController.update)
         this.router.get('/:uuid', postController.findOne)

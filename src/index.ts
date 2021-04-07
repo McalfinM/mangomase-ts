@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes'
 import postRoutes from './routes/post'
 import commentRoutes from './routes/comment'
 import partnerRoutes from './routes/partner'
+import provinceRoutes from './routes/province'
 import err from './middleware/errorMiddleware'
 import multer from 'multer'
 import { BadRequest } from '@tsed/exceptions'
@@ -47,7 +48,8 @@ class App {
         this.app.use(compression())
         this.app.use(cors())
         // this.app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
-        this.app.use(express.static(path.join(__dirname, '../images/partners')));
+        this.app.use(express.static(path.join(__dirname, '../')));
+        console.log(__dirname)
 
     }
 
@@ -61,6 +63,7 @@ class App {
         this.app.use('/api/v1/posts', postRoutes)
         this.app.use('/api/v1/comments', commentRoutes)
         this.app.use('/api/v1/partners', partnerRoutes)
+        this.app.use('/api/v1/provinces', provinceRoutes)
     }
 
 }

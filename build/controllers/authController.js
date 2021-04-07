@@ -17,10 +17,15 @@ const User_1 = __importDefault(require("../models/User"));
 const authService_1 = __importDefault(require("../services/authService"));
 class authController {
     constructor() {
-        this.register = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { name, email, password } = req.body;
-            const data = yield authService_1.default.register(name, email, password);
-            return res.status(201).json(data);
+        this.register = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { name, email, password } = req.body;
+                const data = yield authService_1.default.register(name, email, password);
+                return res.status(201).json(data);
+            }
+            catch (error) {
+                next(error);
+            }
         });
         this.login = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { email, password } = req.body;

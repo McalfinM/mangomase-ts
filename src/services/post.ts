@@ -6,13 +6,21 @@ import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 import { ErrorNotFound } from "../utils/errors";
 import { BadRequest } from "@tsed/exceptions";
+import GetPostRequest from '../request/getPostRequest'
+import GetPostSpecification from "../repositories/specifications/getPostSpecification";
+import PostQueryEntity from "../entities/postQueries";
 
 class PostService {
 
-    getAll = async (query: { [k: string]: any }) => {
-        const post = await PostRepository.index(query)
-        if (!post) throw new BadRequest('Post Not Found')
-        return post
+    async index(
+        data: GetPostRequest
+    ): Promise<{
+        total: number;
+        data: PostQueryEntity[];
+    }> {
+        return await PostRepository.index(
+            new GetPostSpecification(data)
+        );
     }
     async create(request: CreatePostRequest, user: { [k: string]: any }, image: any): Promise<PostEntity> {
 
@@ -23,9 +31,10 @@ class PostService {
             content: request.content ?? '',
             slug: slugify(request.title + '-' + uuidv4()),
             clan_uuid: request.clan_uuid ?? '',
+            category: request.category ?? '',
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
-            image: image ?? 'pet.jpg',
+            image: image ?? 'images/posts/pet.jpg',
             for_adoption: request.for_adoption ?? false,
             want_adoption: request.want_adoption ?? false,
             created_at: new Date,
@@ -43,6 +52,7 @@ class PostService {
             content: request.content ?? '',
             slug: slugify(request.title + '-' + uuidv4()),
             clan_uuid: request.clan_uuid ?? '',
+            category: request.category ?? '',
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
             image: request.image ?? 'pet.jpg',
@@ -54,8 +64,16 @@ class PostService {
         return postEntity
     }
 
-    async findOne(uuid: string): Promise<PostEntity> {
-        const post: PostEntity | null | undefined = await PostRepository.findOne(uuid)
+    async findOne(uuid: string): Promise<PostQueryEntity> {
+        const post: PostQueryEntity | null = await PostRepository.findOne(uuid)
+        if (!post) throw new BadRequest('Post Not Found')
+
+        return post
+    }
+
+
+    async findByUuid(uuid: string): Promise<PostEntity> {
+        const post: PostEntity | null = await PostRepository.findByUuid(uuid)
         if (!post) throw new BadRequest('Post Not Found')
         return post
     }

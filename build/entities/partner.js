@@ -44,10 +44,10 @@ class PartnerEntity extends baseEntity_1.default {
     set setName(name) {
         this.name = name;
     }
-    get getdescription() {
+    get getDescription() {
         return this.description;
     }
-    set setdescription(description) {
+    set setDescription(description) {
         this.description = description;
     }
     get getHoursCloseOpen() {

@@ -3,16 +3,17 @@ import { IPostEntity, IComment } from './interfaces/post'
 
 class PostEntity extends BaseEntity {
     protected id?: string | null
-    protected uuid?: string | null
+    protected uuid: string
     protected user_uuid?: string | null
     protected title?: string | null
     protected content?: string | null
     protected slug?: string | null
     protected age?: number | null
     protected clan_uuid?: string | null
+    protected category?: string
     protected animal_type?: string | null
-    protected for_adoption?: boolean | null
-    protected want_adoption?: boolean | null
+    protected for_adoption?: boolean
+    protected want_adoption?: boolean
     protected image?: string | null
     protected comment?: IComment[] | []
     protected deleted_at?: Date | null
@@ -29,6 +30,7 @@ class PostEntity extends BaseEntity {
         this.slug = params.slug;
         this.age = params.age;
         this.clan_uuid = params.clan_uuid;
+        this.category = params.category;
         this.animal_type = params.animal_type;
         this.for_adoption = params.for_adoption;
         this.want_adoption = params.want_adoption;
@@ -47,7 +49,7 @@ class PostEntity extends BaseEntity {
         this.id = id;
     }
 
-    get getUuid(): string | null | undefined {
+    get getUuid(): string {
         return this.uuid;
     }
 
@@ -69,6 +71,14 @@ class PostEntity extends BaseEntity {
 
     set setTitle(title: string) {
         this.title = title;
+    }
+
+    get getCategory(): string | null | undefined {
+        return this.category;
+    }
+
+    set setCategory(category: string) {
+        this.category = category;
     }
 
     get getContent(): string | null | undefined {
@@ -172,6 +182,7 @@ class PostEntity extends BaseEntity {
             content: this.content,
             slug: this.slug,
             age: this.age,
+            category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
             for_adaption: this.for_adoption,

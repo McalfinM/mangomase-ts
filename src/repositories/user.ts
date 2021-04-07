@@ -3,24 +3,30 @@ import { v4 as uuid } from 'uuid'
 import User from '../models/User'
 import Authentication from '../utils/Authentication'
 
-class UserRepository{
+class UserRepository {
 
-    static find = async () => {
+    find = async () => {
         const users = await User.find()
-                            .where('is_verified').ne(null)
-                            .select('-_id -uuid -password -__v')
-                            
+            .where('is_verified').ne(null)
+            .select('-_id -uuid -password -__v')
+
 
         return users
     }
 
-    static findOne = async (uuid: string) => {
+    findOne = async (uuid: string) => {
         const user = await User.findOne({ uuid: uuid }).select('-_id -uuid -password -__v')
 
         return user
     }
-    
-    static create = async (name: string, email: string, password: string) => {
+
+    async findByEmail(email: string): Promise<any> {
+
+        const user = await User.findOne({ email: email })
+        return user
+    }
+
+    create = async (name: string, email: string, password: string) => {
 
         const hashPassword: string = await Authentication.hash(password)
         const user = User.create({
@@ -33,13 +39,13 @@ class UserRepository{
         return user
     }
 
-    static update = async () => {
+    update = async () => {
         //
     }
 
-    static delete = () => {
+    delete = () => {
         //
     }
 }
 
-export default UserRepository
+export default new UserRepository();

@@ -1,12 +1,20 @@
+export interface IComment {
+    user_uuid: string;
+    comment: string;
+    post_uuid: string;
+}
+
 class CreatePostRequest {
     protected _user_uuid: string;
     protected _title: string;
     protected _content: string;
     protected _slug: string;
     protected _age: number
+    protected _category: string
     protected _clan_uuid: string;
     protected _for_adoption: boolean;
     protected _want_adoption: boolean;
+    protected _comment?: IComment[] | []
     protected _animal_type: string;
     protected _image: string;
 
@@ -17,8 +25,10 @@ class CreatePostRequest {
         slug: string
         age: number
         clan_uuid: string
+        category: string
         animal_type: string
         for_adoption: boolean
+        comment: []
         want_adoption: boolean
         image: string
     }) {
@@ -27,8 +37,10 @@ class CreatePostRequest {
         this._content = body.content;
         this._slug = body.slug;
         this._age = body.age;
+        this._category = body.category
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
+        this._comment = body.comment
         this._for_adoption = body.for_adoption;
         this._want_adoption = body.want_adoption;
         this._image = body.image;
@@ -43,6 +55,11 @@ class CreatePostRequest {
     get content(): string | null {
         return this._content
     }
+
+    get category(): string | null {
+        return this._category
+    }
+
     get slug(): string | null {
         return this._slug
     }
@@ -51,6 +68,9 @@ class CreatePostRequest {
     }
     get clan_uuid(): string | null {
         return this._clan_uuid
+    }
+    get comment(): IComment[] | [] | undefined {
+        return this._comment
     }
     get for_adoption(): boolean | null {
         return this._for_adoption

@@ -8,27 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const post_1 = __importDefault(require("../entities/post"));
+const postQueries_1 = __importDefault(require("../entities/postQueries"));
+const ClanCat_1 = __importDefault(require("../models/ClanCat"));
 const Post_1 = __importDefault(require("../models/Post"));
 class PostRepository {
     constructor() {
         this.create = (postEntity) => __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c;
+            console.log(postEntity, 'ini post entity');
             const post = yield Post_1.default.create({
                 uuid: postEntity.getUuid,
                 user_uuid: postEntity.getUserUuid,
@@ -36,7 +28,8 @@ class PostRepository {
                 content: postEntity.getContent,
                 slug: postEntity.getSlug,
                 age: postEntity.getAge,
-                clan: postEntity.getClanUuid,
+                category: postEntity.getCategory,
+                clan_uuid: postEntity.getClanUuid,
                 animal_type: postEntity.getAnimalType,
                 for_adoption: postEntity.getForAdoption,
                 want_adoption: postEntity.getWantdoption,
@@ -57,7 +50,7 @@ class PostRepository {
                 content: postEntity.getContent,
                 slug: postEntity.getSlug,
                 age: postEntity.getAge,
-                clan: postEntity.getClanUuid,
+                clan_uuid: postEntity.getClanUuid,
                 animal_type: postEntity.getAnimalType,
                 for_adoption: postEntity.getForAdoption,
                 want_adoption: postEntity.getWantdoption,
@@ -66,48 +59,53 @@ class PostRepository {
             });
         });
     }
-    findSlug(slug) {
-        var _a;
+    findByUuid(uuid) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return __awaiter(this, void 0, void 0, function* () {
-            const postEntity = yield Post_1.default.findOne({ slug: slug });
+            const postEntity = yield Post_1.default.findOne({ uuid: uuid });
             return postEntity ? new post_1.default({
-                uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.uuid,
+                uuid: (_a = postEntity.uuid) !== null && _a !== void 0 ? _a : '',
                 user_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.user_uuid,
-                title: postEntity === null || postEntity === void 0 ? void 0 : postEntity.title,
-                content: postEntity === null || postEntity === void 0 ? void 0 : postEntity.content,
-                slug: postEntity === null || postEntity === void 0 ? void 0 : postEntity.slug,
+                title: (_b = postEntity.title) !== null && _b !== void 0 ? _b : '',
+                content: (_c = postEntity.content) !== null && _c !== void 0 ? _c : '',
+                slug: (_d = postEntity.slug) !== null && _d !== void 0 ? _d : '',
                 clan_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.clan_uuid,
                 animal_type: postEntity === null || postEntity === void 0 ? void 0 : postEntity.animal_type,
+                category: (_e = postEntity.category) !== null && _e !== void 0 ? _e : '',
+                comment: (_f = postEntity.comment) !== null && _f !== void 0 ? _f : [],
                 age: postEntity === null || postEntity === void 0 ? void 0 : postEntity.age,
                 image: postEntity === null || postEntity === void 0 ? void 0 : postEntity.image,
-                for_adoption: postEntity === null || postEntity === void 0 ? void 0 : postEntity.for_adoption,
-                want_adoption: postEntity === null || postEntity === void 0 ? void 0 : postEntity.want_adoption,
+                for_adoption: (_g = postEntity.for_adoption) !== null && _g !== void 0 ? _g : false,
+                want_adoption: (_h = postEntity.want_adoption) !== null && _h !== void 0 ? _h : false,
                 created_at: postEntity === null || postEntity === void 0 ? void 0 : postEntity.created_at,
-                updated_at: (_a = postEntity === null || postEntity === void 0 ? void 0 : postEntity.updated_at) !== null && _a !== void 0 ? _a : null,
+                updated_at: (_j = postEntity === null || postEntity === void 0 ? void 0 : postEntity.updated_at) !== null && _j !== void 0 ? _j : null,
             }) : null;
         });
     }
     findOne(uuid) {
-        var _a;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         return __awaiter(this, void 0, void 0, function* () {
             const postEntity = yield Post_1.default.findOne({
-                uuid: uuid,
+                slug: uuid,
                 $or: [{ deleted_at: null }, { deleted_at: undefined }],
-            });
-            return postEntity ? new post_1.default({
-                uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.uuid,
+            }).populate({ path: 'clan', select: ['uuid', 'name'], model: ClanCat_1.default });
+            return postEntity ? new postQueries_1.default({
+                uuid: (_a = postEntity.uuid) !== null && _a !== void 0 ? _a : '',
                 user_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.user_uuid,
-                title: postEntity === null || postEntity === void 0 ? void 0 : postEntity.title,
-                content: postEntity === null || postEntity === void 0 ? void 0 : postEntity.content,
-                slug: postEntity === null || postEntity === void 0 ? void 0 : postEntity.slug,
+                title: (_b = postEntity.title) !== null && _b !== void 0 ? _b : '',
+                content: (_c = postEntity.content) !== null && _c !== void 0 ? _c : '',
+                slug: (_d = postEntity.slug) !== null && _d !== void 0 ? _d : '',
                 clan_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.clan_uuid,
+                clan: (_e = postEntity === null || postEntity === void 0 ? void 0 : postEntity.clan) !== null && _e !== void 0 ? _e : null,
                 animal_type: postEntity === null || postEntity === void 0 ? void 0 : postEntity.animal_type,
+                category: (_f = postEntity.category) !== null && _f !== void 0 ? _f : '',
                 age: postEntity === null || postEntity === void 0 ? void 0 : postEntity.age,
+                comment: (_g = postEntity.comment) !== null && _g !== void 0 ? _g : [],
                 image: postEntity === null || postEntity === void 0 ? void 0 : postEntity.image,
-                for_adoption: postEntity === null || postEntity === void 0 ? void 0 : postEntity.for_adoption,
-                want_adoption: postEntity === null || postEntity === void 0 ? void 0 : postEntity.want_adoption,
+                for_adoption: (_h = postEntity.for_adoption) !== null && _h !== void 0 ? _h : false,
+                want_adoption: (_j = postEntity.want_adoption) !== null && _j !== void 0 ? _j : false,
                 created_at: postEntity === null || postEntity === void 0 ? void 0 : postEntity.created_at,
-                updated_at: (_a = postEntity === null || postEntity === void 0 ? void 0 : postEntity.updated_at) !== null && _a !== void 0 ? _a : null,
+                updated_at: (_k = postEntity === null || postEntity === void 0 ? void 0 : postEntity.updated_at) !== null && _k !== void 0 ? _k : null,
             }) : null;
         });
     }
@@ -116,74 +114,69 @@ class PostRepository {
             return yield Post_1.default.updateOne({ uuid: uuid }, { $set: { deleted_at: new Date } });
         });
     }
-    index(query) {
-        var _a;
+    findByUserLogin(user) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { page, limit, sort } = query, rest = __rest(query, ["page", "limit", "sort"]);
-            // filter
-            const queryVal = {};
-            for (const key in rest) {
-                if (Object.prototype.hasOwnProperty.call(rest, key)) {
-                    const element = rest[key];
-                    if (typeof element === 'object') {
-                        for (const k in element) {
-                            if (Object.prototype.hasOwnProperty.call(element, k)) {
-                                queryVal[key] = { ['$' + k]: element[k] };
-                            }
-                        }
-                    }
-                    else {
-                        queryVal[key] = new RegExp(rest[key], 'i');
-                    }
-                }
-            }
-            // sort
-            const sortVal = {};
-            const sortArr = (_a = sort) === null || _a === void 0 ? void 0 : _a.split(',');
-            sortArr === null || sortArr === void 0 ? void 0 : sortArr.map(s => {
-                var _a;
-                const splitted = (_a = s) === null || _a === void 0 ? void 0 : _a.split('.');
-                sortVal[splitted[0]] = splitted[1].toUpperCase() == 'ASC' ? 1 : -1;
-            });
-            let options = {};
-            // paginate
-            if (limit) {
-                // @ts-ignore
-                options.limit = +limit;
-            }
-            if (page && limit) {
-                if (+page > 1) {
-                    // @ts-ignore
-                    options.skip = (page - 1) * +limit;
-                }
-            }
-            // @ts-ignore
-            options.sort = sortVal;
-            return Post_1.default.find(Object.assign({}, queryVal), { $or: [{ deleted_at: null }, { deleted_at: undefined }] }, options)
+            return Post_1.default.find({ user_uuid: user.uuid }, { $or: [{ deleted_at: null }, { deleted_at: undefined }] })
                 .then(result => {
                 return result.map(data => {
-                    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+                    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
                     return new post_1.default({
-                        id: data === null || data === void 0 ? void 0 : data._id,
                         uuid: (_a = data === null || data === void 0 ? void 0 : data.uuid) !== null && _a !== void 0 ? _a : '',
                         user_uuid: (_b = data === null || data === void 0 ? void 0 : data.user_uuid) !== null && _b !== void 0 ? _b : '',
                         title: (_c = data === null || data === void 0 ? void 0 : data.title) !== null && _c !== void 0 ? _c : '',
                         content: (_d = data === null || data === void 0 ? void 0 : data.content) !== null && _d !== void 0 ? _d : '',
                         slug: (_e = data === null || data === void 0 ? void 0 : data.slug) !== null && _e !== void 0 ? _e : '',
                         age: (_f = data === null || data === void 0 ? void 0 : data.age) !== null && _f !== void 0 ? _f : 0,
-                        clan_uuid: (_g = data === null || data === void 0 ? void 0 : data.clan_uuid) !== null && _g !== void 0 ? _g : '',
-                        animal_type: (_h = data === null || data === void 0 ? void 0 : data.animal_type) !== null && _h !== void 0 ? _h : '',
-                        for_adoption: (_j = data === null || data === void 0 ? void 0 : data.for_adoption) !== null && _j !== void 0 ? _j : false,
-                        want_adoption: (_k = data === null || data === void 0 ? void 0 : data.want_adoption) !== null && _k !== void 0 ? _k : false,
-                        image: (_l = data === null || data === void 0 ? void 0 : data.image) !== null && _l !== void 0 ? _l : 'animal.jpg',
-                        comment: (_m = data === null || data === void 0 ? void 0 : data.comment) !== null && _m !== void 0 ? _m : [],
-                        created_at: (_o = data === null || data === void 0 ? void 0 : data.created_at) !== null && _o !== void 0 ? _o : new Date,
-                        updated_at: (_p = data === null || data === void 0 ? void 0 : data.updated_at) !== null && _p !== void 0 ? _p : new Date,
-                        deleted_at: (_q = data === null || data === void 0 ? void 0 : data.deleted_at) !== null && _q !== void 0 ? _q : null
+                        category: (_g = data.category) !== null && _g !== void 0 ? _g : '',
+                        clan_uuid: (_h = data === null || data === void 0 ? void 0 : data.clan_uuid) !== null && _h !== void 0 ? _h : '',
+                        animal_type: (_j = data === null || data === void 0 ? void 0 : data.animal_type) !== null && _j !== void 0 ? _j : '',
+                        for_adoption: (_k = data === null || data === void 0 ? void 0 : data.for_adoption) !== null && _k !== void 0 ? _k : false,
+                        want_adoption: (_l = data === null || data === void 0 ? void 0 : data.want_adoption) !== null && _l !== void 0 ? _l : false,
+                        image: (_m = data === null || data === void 0 ? void 0 : data.image) !== null && _m !== void 0 ? _m : 'animal.jpg',
+                        comment: (_o = data === null || data === void 0 ? void 0 : data.comment) !== null && _o !== void 0 ? _o : [],
+                        created_at: (_p = data === null || data === void 0 ? void 0 : data.created_at) !== null && _p !== void 0 ? _p : new Date,
+                        updated_at: (_q = data === null || data === void 0 ? void 0 : data.updated_at) !== null && _q !== void 0 ? _q : new Date,
+                        deleted_at: (_r = data === null || data === void 0 ? void 0 : data.deleted_at) !== null && _r !== void 0 ? _r : null
                     });
                 });
             })
                 .catch(err => {
+                return err;
+            });
+        });
+    }
+    index(specification) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const total_customer = yield Post_1.default.find(Object.assign({}, specification.specifies())).countDocuments();
+            return Post_1.default.find(Object.assign({}, specification.specifies()), {}, Object.assign(Object.assign({}, specification.paginate()), { sort: specification.specSort() })).populate({ path: 'clan', select: ['uuid', 'name'], model: ClanCat_1.default })
+                .then((result) => {
+                return {
+                    total: total_customer,
+                    data: result.map((data) => {
+                        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+                        return new postQueries_1.default({
+                            uuid: (_a = data.uuid) !== null && _a !== void 0 ? _a : '',
+                            user_uuid: (_b = data === null || data === void 0 ? void 0 : data.user_uuid) !== null && _b !== void 0 ? _b : '',
+                            title: (_c = data === null || data === void 0 ? void 0 : data.title) !== null && _c !== void 0 ? _c : '',
+                            content: (_d = data === null || data === void 0 ? void 0 : data.content) !== null && _d !== void 0 ? _d : '',
+                            slug: (_e = data === null || data === void 0 ? void 0 : data.slug) !== null && _e !== void 0 ? _e : '',
+                            age: (_f = data === null || data === void 0 ? void 0 : data.age) !== null && _f !== void 0 ? _f : 0,
+                            clan_uuid: (_g = data === null || data === void 0 ? void 0 : data.clan_uuid) !== null && _g !== void 0 ? _g : '',
+                            clan: (_h = data === null || data === void 0 ? void 0 : data.clan) !== null && _h !== void 0 ? _h : null,
+                            animal_type: (_j = data === null || data === void 0 ? void 0 : data.animal_type) !== null && _j !== void 0 ? _j : '',
+                            category: (_k = data.category) !== null && _k !== void 0 ? _k : '',
+                            for_adoption: (_l = data === null || data === void 0 ? void 0 : data.for_adoption) !== null && _l !== void 0 ? _l : false,
+                            want_adoption: (_m = data === null || data === void 0 ? void 0 : data.want_adoption) !== null && _m !== void 0 ? _m : false,
+                            image: (_o = data === null || data === void 0 ? void 0 : data.image) !== null && _o !== void 0 ? _o : 'animal.jpg',
+                            comment: (_p = data === null || data === void 0 ? void 0 : data.comment) !== null && _p !== void 0 ? _p : [],
+                            created_at: (_q = data === null || data === void 0 ? void 0 : data.created_at) !== null && _q !== void 0 ? _q : new Date,
+                            updated_at: (_r = data === null || data === void 0 ? void 0 : data.updated_at) !== null && _r !== void 0 ? _r : new Date,
+                            deleted_at: (_s = data === null || data === void 0 ? void 0 : data.deleted_at) !== null && _s !== void 0 ? _s : null
+                        });
+                    }),
+                };
+            })
+                .catch((err) => {
                 return err;
             });
         });

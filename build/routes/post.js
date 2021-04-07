@@ -26,7 +26,7 @@ const fileFilter = (req, file, cb) => {
 };
 class postRoutes extends baseRoutes_1.default {
     routes() {
-        this.router.get('/', post_1.default.getAll);
+        this.router.get('/', post_1.default.findAll);
         this.router.post('/', multer_1.default({ storage: fileStorage, fileFilter: fileFilter }).single('image'), post_1.default.create);
         this.router.patch('/:uuid', post_1.default.update);
         this.router.get('/:uuid', post_1.default.findOne);
