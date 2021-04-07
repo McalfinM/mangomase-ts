@@ -67,8 +67,8 @@ class App {
     }
 
 }
-const port = 3001
+const port = process.env.PORT || 3005
 const app = new App().app
-app.listen(port, () => {
+app.listen(3005, () => {
     console.log(`Server running on localhost:${port}`)
 })
