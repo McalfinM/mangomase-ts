@@ -61,6 +61,4 @@ class App {
 }
 const port = process.env.PORT || 3005;
 const app = new App().app;
-app.listen(3005, () => {
-    console.log(`Server running on localhost:${port}`);
-});
+app.listen(process.env.PORT || 3005);
