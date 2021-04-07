@@ -60,11 +60,11 @@ class PartnerEntity extends BaseEntity {
         this.name = name
     }
 
-    get getdescription(): string | null | undefined {
+    get getDescription(): string | null | undefined {
         return this.description
     }
 
-    set setdescription(description: string) {
+    set setDescription(description: string) {
         this.description = description
     }
 

@@ -7,6 +7,7 @@ class UpdatePostRequest {
         this._content = body.content;
         this._slug = body.slug;
         this._age = body.age;
+        this._category = body.category;
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
         this._for_adoption = body.for_adoption;
@@ -30,6 +31,9 @@ class UpdatePostRequest {
     }
     get clan_uuid() {
         return this._clan_uuid;
+    }
+    get category() {
+        return this.category;
     }
     get for_adoption() {
         return this._for_adoption;

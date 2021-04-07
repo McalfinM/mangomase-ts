@@ -17,7 +17,7 @@ class CreateCommentPostRequest {
         return this._user_uuid
     }
 
-    get post_uuid(): string | null {
+    get post_uuid(): string {
         return this._post_uuid
     }
 

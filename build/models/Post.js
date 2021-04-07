@@ -13,9 +13,20 @@ const PostSchema = new mongoose_1.Schema({
     animal_type: { type: String },
     image: { type: String },
     comment: { type: Array },
+    for_adoption: { type: Boolean },
+    want_adoption: { type: Boolean },
     deleted_at: { type: Date },
     created_at: { type: Date },
     updated_at: { type: Date }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+});
+PostSchema.virtual('clan', {
+    ref: 'clan_cat',
+    localField: 'clan_uuid',
+    foreignField: 'uuid',
+    justOne: true,
 });
 const Post = mongoose_1.model("post", PostSchema);
 exports.default = Post;

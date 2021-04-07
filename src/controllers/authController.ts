@@ -5,10 +5,15 @@ import AuthService from '../services/authService'
 
 class authController {
 
-    register = async (req: Request, res: Response): Promise<Response> => {
-        const { name, email, password } = req.body
-        const data = await AuthService.register(name, email, password)
-        return res.status(201).json(data)
+    register = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { name, email, password } = req.body
+            const data = await AuthService.register(name, email, password)
+            return res.status(201).json(data)
+        } catch (error) {
+            next(error)
+        }
+
     }
 
     login = async (req: Request, res: Response): Promise<Response> => {
@@ -27,7 +32,7 @@ class authController {
             const token = await Authentication.generateToken(data.name, email, data.uuid);
             data.password = undefined;
             // data._id = undefined;
-            
+
             return res.status(200).json({
                 token_type: 'Bearer',
                 access_token: token,

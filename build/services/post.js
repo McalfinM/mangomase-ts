@@ -17,17 +17,15 @@ const post_2 = __importDefault(require("../repositories/post"));
 const uuid_1 = require("uuid");
 const slugify_1 = __importDefault(require("slugify"));
 const exceptions_1 = require("@tsed/exceptions");
+const getPostSpecification_1 = __importDefault(require("../repositories/specifications/getPostSpecification"));
 class PostService {
-    constructor() {
-        this.getAll = (query) => __awaiter(this, void 0, void 0, function* () {
-            const post = yield post_2.default.index(query);
-            if (!post)
-                throw new exceptions_1.BadRequest('Post Not Found');
-            return post;
+    index(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_2.default.index(new getPostSpecification_1.default(data));
         });
     }
     create(request, user, image) {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         return __awaiter(this, void 0, void 0, function* () {
             const postEntity = new post_1.default({
                 uuid: uuid_1.v4(),
@@ -36,11 +34,12 @@ class PostService {
                 content: (_b = request.content) !== null && _b !== void 0 ? _b : '',
                 slug: slugify_1.default(request.title + '-' + uuid_1.v4()),
                 clan_uuid: (_c = request.clan_uuid) !== null && _c !== void 0 ? _c : '',
-                animal_type: (_d = request.animal_type) !== null && _d !== void 0 ? _d : '',
-                age: (_e = request.age) !== null && _e !== void 0 ? _e : 0,
-                image: image !== null && image !== void 0 ? image : 'pet.jpg',
-                for_adoption: (_f = request.for_adoption) !== null && _f !== void 0 ? _f : false,
-                want_adoption: (_g = request.want_adoption) !== null && _g !== void 0 ? _g : false,
+                category: (_d = request.category) !== null && _d !== void 0 ? _d : '',
+                animal_type: (_e = request.animal_type) !== null && _e !== void 0 ? _e : '',
+                age: (_f = request.age) !== null && _f !== void 0 ? _f : 0,
+                image: image !== null && image !== void 0 ? image : 'images/posts/pet.jpg',
+                for_adoption: (_g = request.for_adoption) !== null && _g !== void 0 ? _g : false,
+                want_adoption: (_h = request.want_adoption) !== null && _h !== void 0 ? _h : false,
                 created_at: new Date,
                 updated_at: null
             });
@@ -49,7 +48,7 @@ class PostService {
         });
     }
     update(request, user, uuid) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return __awaiter(this, void 0, void 0, function* () {
             const postEntity = new post_1.default({
                 uuid: uuid,
@@ -58,11 +57,12 @@ class PostService {
                 content: (_b = request.content) !== null && _b !== void 0 ? _b : '',
                 slug: slugify_1.default(request.title + '-' + uuid_1.v4()),
                 clan_uuid: (_c = request.clan_uuid) !== null && _c !== void 0 ? _c : '',
-                animal_type: (_d = request.animal_type) !== null && _d !== void 0 ? _d : '',
-                age: (_e = request.age) !== null && _e !== void 0 ? _e : 0,
-                image: (_f = request.image) !== null && _f !== void 0 ? _f : 'pet.jpg',
-                for_adoption: (_g = request.for_adoption) !== null && _g !== void 0 ? _g : false,
-                want_adoption: (_h = request.want_adoption) !== null && _h !== void 0 ? _h : false,
+                category: (_d = request.category) !== null && _d !== void 0 ? _d : '',
+                animal_type: (_e = request.animal_type) !== null && _e !== void 0 ? _e : '',
+                age: (_f = request.age) !== null && _f !== void 0 ? _f : 0,
+                image: (_g = request.image) !== null && _g !== void 0 ? _g : 'pet.jpg',
+                for_adoption: (_h = request.for_adoption) !== null && _h !== void 0 ? _h : false,
+                want_adoption: (_j = request.want_adoption) !== null && _j !== void 0 ? _j : false,
                 updated_at: new Date
             });
             const post = yield post_2.default.update(postEntity, user);
@@ -72,6 +72,14 @@ class PostService {
     findOne(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield post_2.default.findOne(uuid);
+            if (!post)
+                throw new exceptions_1.BadRequest('Post Not Found');
+            return post;
+        });
+    }
+    findByUuid(uuid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const post = yield post_2.default.findByUuid(uuid);
             if (!post)
                 throw new exceptions_1.BadRequest('Post Not Found');
             return post;

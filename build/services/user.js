@@ -15,22 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../repositories/user"));
 const accessMenu_1 = __importDefault(require("./accessMenu"));
 class UserService {
+    constructor() {
+        this.find = () => __awaiter(this, void 0, void 0, function* () {
+            const users = yield user_1.default.find();
+            return users;
+        });
+        this.findOne = (uuid, url) => __awaiter(this, void 0, void 0, function* () {
+            // const user = await UserRepository.findOne(uuid)
+            const access = yield accessMenu_1.default.findOne(uuid, url);
+            return access;
+        });
+        this.create = (name, email, password) => __awaiter(this, void 0, void 0, function* () {
+            const findUser = yield user_1.default.findByEmail(email);
+            if (findUser)
+                throw new Error('email already taken');
+            console.log(findUser);
+            const user = yield user_1.default.create(name, email, password);
+            return user;
+        });
+        this.update = () => {
+        };
+        this.delete = () => {
+        };
+    }
 }
-UserService.find = () => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_1.default.find();
-    return users;
-});
-UserService.findOne = (uuid, url) => __awaiter(void 0, void 0, void 0, function* () {
-    // const user = await UserRepository.findOne(uuid)
-    const access = yield accessMenu_1.default.findOne(uuid, url);
-    return access;
-});
-UserService.create = (name, email, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_1.default.create(name, email, password);
-    return user;
-});
-UserService.update = () => {
-};
-UserService.delete = () => {
-};
-exports.default = UserService;
+exports.default = new UserService();

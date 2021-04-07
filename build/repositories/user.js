@@ -16,31 +16,39 @@ const uuid_1 = require("uuid");
 const User_1 = __importDefault(require("../models/User"));
 const Authentication_1 = __importDefault(require("../utils/Authentication"));
 class UserRepository {
+    constructor() {
+        this.find = () => __awaiter(this, void 0, void 0, function* () {
+            const users = yield User_1.default.find()
+                .where('is_verified').ne(null)
+                .select('-_id -uuid -password -__v');
+            return users;
+        });
+        this.findOne = (uuid) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.default.findOne({ uuid: uuid }).select('-_id -uuid -password -__v');
+            return user;
+        });
+        this.create = (name, email, password) => __awaiter(this, void 0, void 0, function* () {
+            const hashPassword = yield Authentication_1.default.hash(password);
+            const user = User_1.default.create({
+                uuid: uuid_1.v4(),
+                name: name,
+                email: email,
+                password: hashPassword,
+            });
+            return user;
+        });
+        this.update = () => __awaiter(this, void 0, void 0, function* () {
+            //
+        });
+        this.delete = () => {
+            //
+        };
+    }
+    findByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.default.findOne({ email: email });
+            return user;
+        });
+    }
 }
-UserRepository.find = () => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield User_1.default.find()
-        .where('is_verified').ne(null)
-        .select('-_id -uuid -password -__v');
-    return users;
-});
-UserRepository.findOne = (uuid) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield User_1.default.findOne({ uuid: uuid }).select('-_id -uuid -password -__v');
-    return user;
-});
-UserRepository.create = (name, email, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const hashPassword = yield Authentication_1.default.hash(password);
-    const user = User_1.default.create({
-        uuid: uuid_1.v4(),
-        name: name,
-        email: email,
-        password: hashPassword,
-    });
-    return user;
-});
-UserRepository.update = () => __awaiter(void 0, void 0, void 0, function* () {
-    //
-});
-UserRepository.delete = () => {
-    //
-};
-exports.default = UserRepository;
+exports.default = new UserRepository();

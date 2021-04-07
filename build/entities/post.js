@@ -15,6 +15,7 @@ class PostEntity extends baseEntity_1.default {
         this.slug = params.slug;
         this.age = params.age;
         this.clan_uuid = params.clan_uuid;
+        this.category = params.category;
         this.animal_type = params.animal_type;
         this.for_adoption = params.for_adoption;
         this.want_adoption = params.want_adoption;
@@ -48,6 +49,12 @@ class PostEntity extends baseEntity_1.default {
     }
     set setTitle(title) {
         this.title = title;
+    }
+    get getCategory() {
+        return this.category;
+    }
+    set setCategory(category) {
+        this.category = category;
     }
     get getContent() {
         return this.content;
@@ -129,6 +136,7 @@ class PostEntity extends baseEntity_1.default {
             content: this.content,
             slug: this.slug,
             age: this.age,
+            category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
             for_adaption: this.for_adoption,

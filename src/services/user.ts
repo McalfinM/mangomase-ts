@@ -1,9 +1,9 @@
 import UserRepository from '../repositories/user'
 import AccessService from './accessMenu'
 
-class UserService{
+class UserService {
 
-    static find = async () => {
+    find = async () => {
 
         const users = await UserRepository.find()
 
@@ -11,8 +11,8 @@ class UserService{
 
     }
 
-    static findOne = async (uuid: string, url: string) => {
-        
+    findOne = async (uuid: string, url: string) => {
+
         // const user = await UserRepository.findOne(uuid)
         const access = await AccessService.findOne(uuid, url)
 
@@ -20,22 +20,25 @@ class UserService{
         return access
     }
 
-    static create = async (name:string,email:string,password:string) => {
+    create = async (name: string, email: string, password: string) => {
 
-        const user = await UserRepository.create(name,email,password)
+        const findUser = await UserRepository.findByEmail(email)
+        if (findUser) throw new Error('email already taken')
+        console.log(findUser)
+        const user = await UserRepository.create(name, email, password)
 
         return user
 
     }
 
-    static update = () => {
+    update = () => {
 
     }
 
-    static delete = () => {
+    delete = () => {
 
     }
 
 }
 
-export default UserService
+export default new UserService();

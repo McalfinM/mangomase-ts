@@ -16,8 +16,10 @@ export interface IPost extends Document {
     content?: string | null;
     slug?: string | null;
     age?: number | null
+    category?: string | null;
     clan_uuid?: string | null
     animal_type?: string | null
+    clan?: { [k: string]: any } | null
     for_adoption?: boolean | null
     want_adoption?: boolean | null
     image?: string | null

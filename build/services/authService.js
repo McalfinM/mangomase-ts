@@ -16,6 +16,9 @@ const user_1 = __importDefault(require("../repositories/user"));
 class AuthService {
 }
 AuthService.register = (name, email, password) => __awaiter(void 0, void 0, void 0, function* () {
+    const findUser = user_1.default.findByEmail(email);
+    if (findUser)
+        throw new Error('email already taken');
     const user = user_1.default.create(name, email, password);
     return user;
 });
