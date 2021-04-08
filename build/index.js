@@ -59,8 +59,8 @@ class App {
         this.app.use('/api/v1/provinces', province_1.default);
     }
 }
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3008;
 const app = new App().app;
-app.listen(3005, () => {
+app.listen(port, () => {
     console.log(`Server running on localhost:${port}`);
 });
