@@ -67,6 +67,7 @@ class App {
     }
 
 }
-const port = process.env.PORT || 3005
+const port = process.env.PORT || 3008
 const app = new App().app
+
 app.listen(process.env.PORT || 3005);
