@@ -16,7 +16,6 @@ const Post_1 = __importDefault(require("../models/Post"));
 class CommentRepository {
     create(postEntitiy) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(postEntitiy, 'ini console request');
             const post = yield Post_1.default.updateOne({ uuid: postEntitiy.getUuid }, {
                 $push: {
                     comment: postEntitiy.getComment

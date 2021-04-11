@@ -21,7 +21,6 @@ class CommentService {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const searchPost = yield post_2.default.findByUuid((_a = request.post_uuid) !== null && _a !== void 0 ? _a : '');
-            console.log(searchPost, 'ini search');
             const comments = yield comment_1.default.create(new post_1.default({
                 uuid: searchPost.getUuid,
                 comment: [{

@@ -20,7 +20,6 @@ class PostRepository {
     constructor() {
         this.create = (postEntity) => __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c;
-            console.log(postEntity, 'ini post entity');
             const post = yield Post_1.default.create({
                 uuid: postEntity.getUuid,
                 user_uuid: postEntity.getUserUuid,
@@ -42,7 +41,6 @@ class PostRepository {
         });
         this.update = (postEntity, user) => __awaiter(this, void 0, void 0, function* () {
             var _d;
-            console.log(postEntity.getUuid, 'ini adalah post');
             return yield Post_1.default.updateOne({ uuid: postEntity.getUuid }, {
                 user_uuid: postEntity.getUserUuid,
                 title: postEntity.getTitle,

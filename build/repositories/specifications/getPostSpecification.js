@@ -13,8 +13,7 @@ class GetPostSpecification {
         this._clan_uuid = request.clan_uuid;
         this._category = request.category;
         this._animal_type = request.animal_type;
-        this._for_adoption = request.for_adoption;
-        this._want_adoption = request.want_adoption;
+        this._adoption = request.adoption;
         this._sort_by = (_a = request.sort) !== null && _a !== void 0 ? _a : '-created_at';
         this._page = (_b = request.page) !== null && _b !== void 0 ? _b : 1;
         this._limit = (_c = request.limit) !== null && _c !== void 0 ? _c : 30;
@@ -27,6 +26,9 @@ class GetPostSpecification {
         }
         if (this._uuid) {
             specifications["uuid"] = this._uuid;
+        }
+        if (this._category) {
+            specifications["category"] = this._category;
         }
         if (this._age) {
             specifications["age"] = this._age;

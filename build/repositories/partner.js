@@ -28,7 +28,6 @@ const Partner_1 = __importDefault(require("../models/Partner"));
 class PartnerRepository {
     create(partnerEntity) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(partnerEntity, 'ini console request');
             const post = yield Partner_1.default.create({
                 uuid: partnerEntity.getUuid,
                 user_uuid: partnerEntity.getUserUuid,

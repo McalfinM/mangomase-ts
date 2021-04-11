@@ -29,7 +29,6 @@ class UserService {
             const findUser = yield user_1.default.findByEmail(email);
             if (findUser)
                 throw new Error('email already taken');
-            console.log(findUser);
             const user = yield user_1.default.create(name, email, password);
             return user;
         });

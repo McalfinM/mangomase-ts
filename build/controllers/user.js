@@ -54,7 +54,6 @@ class UserController {
         this.profile = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = req.app.locals.credential;
-                console.log(user, 'ini user');
                 const data = yield user_1.default.profile(user);
                 return res.status(200).json(data);
             }
