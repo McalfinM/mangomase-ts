@@ -38,5 +38,13 @@ class UserService {
         this.delete = () => {
         };
     }
+    profile(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield user_1.default.profile(user);
+            if (!data)
+                throw new Error('data not found');
+            return data;
+        });
+    }
 }
 exports.default = new UserService();

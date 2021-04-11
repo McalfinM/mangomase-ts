@@ -13,8 +13,7 @@ const PostSchema = new mongoose_1.Schema({
     animal_type: { type: String },
     image: { type: String },
     comment: { type: Array },
-    for_adoption: { type: Boolean },
-    want_adoption: { type: Boolean },
+    adoption: { type: Boolean },
     deleted_at: { type: Date },
     created_at: { type: Date },
     updated_at: { type: Date }

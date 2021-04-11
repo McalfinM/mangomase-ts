@@ -10,5 +10,11 @@ const CommentSchema = new mongoose_1.Schema({
     created_at: { type: Date },
     updated_at: { type: Date }
 });
+CommentSchema.virtual('user', {
+    ref: 'user',
+    localField: 'user_uuid',
+    foreignField: 'uuid',
+    justOne: true,
+});
 const Comment = mongoose_1.model("comment", CommentSchema);
 exports.default = Comment;

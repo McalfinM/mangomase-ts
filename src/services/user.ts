@@ -1,5 +1,6 @@
 import UserRepository from '../repositories/user'
 import AccessService from './accessMenu'
+import UserEntity from '../entities/user'
 
 class UserService {
 
@@ -24,11 +25,17 @@ class UserService {
 
         const findUser = await UserRepository.findByEmail(email)
         if (findUser) throw new Error('email already taken')
-        console.log(findUser)
         const user = await UserRepository.create(name, email, password)
 
         return user
 
+    }
+
+    async profile(user: { [k: string]: any }): Promise<UserEntity> {
+
+        const data: UserEntity | null = await UserRepository.profile(user)
+        if (!data) throw new Error('data not found')
+        return data
     }
 
     update = () => {

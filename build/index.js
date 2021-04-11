@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const compression_1 = __importDefault(require("compression"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 require("./database");
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
@@ -14,9 +15,11 @@ const post_1 = __importDefault(require("./routes/post"));
 const comment_1 = __importDefault(require("./routes/comment"));
 const partner_1 = __importDefault(require("./routes/partner"));
 const province_1 = __importDefault(require("./routes/province"));
+const clan_1 = __importDefault(require("./routes/clan"));
 const errorMiddleware_1 = __importDefault(require("./middleware/errorMiddleware"));
 // import { v4 as uuidv4 } from 'uuid'
 const path_1 = __importDefault(require("path"));
+dotenv_1.default.config();
 // const fileStorage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         cb(null, 'images')
@@ -57,6 +60,7 @@ class App {
         this.app.use('/api/v1/comments', comment_1.default);
         this.app.use('/api/v1/partners', partner_1.default);
         this.app.use('/api/v1/provinces', province_1.default);
+        this.app.use('/api/v1/clans', clan_1.default);
     }
 }
 const port = process.env.PORT || 3008;

@@ -12,8 +12,7 @@ class PostEntity extends BaseEntity {
     protected clan_uuid?: string | null
     protected category?: string
     protected animal_type?: string | null
-    protected for_adoption?: boolean
-    protected want_adoption?: boolean
+    protected adoption?: boolean
     protected image?: string | null
     protected comment?: IComment[] | []
     protected deleted_at?: Date | null
@@ -32,8 +31,7 @@ class PostEntity extends BaseEntity {
         this.clan_uuid = params.clan_uuid;
         this.category = params.category;
         this.animal_type = params.animal_type;
-        this.for_adoption = params.for_adoption;
-        this.want_adoption = params.want_adoption;
+        this.adoption = params.adoption;
         this.image = params.image;
         this.comment = params.comment;
         this.deleted_at = params.deleted_at;
@@ -98,16 +96,11 @@ class PostEntity extends BaseEntity {
     }
 
     get getForAdoption(): boolean | null | undefined {
-        return this.for_adoption
+        return this.adoption
     }
-    set setForAdoption(for_adoption: boolean) {
-        this.for_adoption = for_adoption
-    }
-    get getWantdoption(): boolean | null | undefined {
-        return this.want_adoption
-    }
-    set setWantdoption(want_adoption: boolean) {
-        this.want_adoption = want_adoption
+
+    set setForAdoption(adoption: boolean) {
+        this.adoption = adoption
     }
 
     get getAge(): number | null | undefined {
@@ -185,8 +178,7 @@ class PostEntity extends BaseEntity {
             category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
-            for_adaption: this.for_adoption,
-            want_adaption: this.want_adoption,
+            adoption: this.adoption,
             image: this.image,
             comment: this.comment,
             created_at: this.created_at,

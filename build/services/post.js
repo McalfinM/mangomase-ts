@@ -25,11 +25,11 @@ class PostService {
         });
     }
     create(request, user, image) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g;
         return __awaiter(this, void 0, void 0, function* () {
             const postEntity = new post_1.default({
                 uuid: uuid_1.v4(),
-                user_uuid: '7gd74-5895-59gf-589njn54-5945j4nj',
+                user_uuid: user.uuid,
                 title: (_a = request.title) !== null && _a !== void 0 ? _a : '',
                 content: (_b = request.content) !== null && _b !== void 0 ? _b : '',
                 slug: slugify_1.default(request.title + '-' + uuid_1.v4()),
@@ -38,8 +38,7 @@ class PostService {
                 animal_type: (_e = request.animal_type) !== null && _e !== void 0 ? _e : '',
                 age: (_f = request.age) !== null && _f !== void 0 ? _f : 0,
                 image: image !== null && image !== void 0 ? image : 'images/posts/pet.jpg',
-                for_adoption: (_g = request.for_adoption) !== null && _g !== void 0 ? _g : false,
-                want_adoption: (_h = request.want_adoption) !== null && _h !== void 0 ? _h : false,
+                adoption: (_g = request.adoption) !== null && _g !== void 0 ? _g : false,
                 created_at: new Date,
                 updated_at: null
             });
@@ -48,7 +47,7 @@ class PostService {
         });
     }
     update(request, user, uuid) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         return __awaiter(this, void 0, void 0, function* () {
             const postEntity = new post_1.default({
                 uuid: uuid,
@@ -61,8 +60,7 @@ class PostService {
                 animal_type: (_e = request.animal_type) !== null && _e !== void 0 ? _e : '',
                 age: (_f = request.age) !== null && _f !== void 0 ? _f : 0,
                 image: (_g = request.image) !== null && _g !== void 0 ? _g : 'pet.jpg',
-                for_adoption: (_h = request.for_adoption) !== null && _h !== void 0 ? _h : false,
-                want_adoption: (_j = request.want_adoption) !== null && _j !== void 0 ? _j : false,
+                adoption: (_h = request.adoption) !== null && _h !== void 0 ? _h : false,
                 updated_at: new Date
             });
             const post = yield post_2.default.update(postEntity, user);
@@ -73,7 +71,7 @@ class PostService {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield post_2.default.findOne(uuid);
             if (!post)
-                throw new exceptions_1.BadRequest('Post Not Found');
+                throw new exceptions_1.BadRequest('Post Not Found find one');
             return post;
         });
     }
@@ -90,6 +88,12 @@ class PostService {
             const post = yield post_2.default.delete(uuid);
             if (!post)
                 throw new exceptions_1.BadRequest('Post Not Found');
+            return post;
+        });
+    }
+    findByUserLogin(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const post = yield post_2.default.findByUserLogin(user);
             return post;
         });
     }

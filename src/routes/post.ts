@@ -23,10 +23,14 @@ const fileFilter = (req: any, file: any, cb: any) => {
 }
 class postRoutes extends BaseRoutes {
     public routes(): void {
+        this.router.get('/user-posts', auth, postController.findByUserLogin)
         this.router.get('/', postController.findAll)
-        this.router.post('/', multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'), postController.create)
+        this.router.delete('/:uuid', auth, postController.delete)
+        this.router.post('/', auth, multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'), postController.create)
         this.router.patch('/:uuid', postController.update)
         this.router.get('/:uuid', postController.findOne)
+
+
     }
 }
 

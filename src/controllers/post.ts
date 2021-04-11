@@ -22,8 +22,6 @@ class PostController {
         }
         await PostService.index(new GetPostRequest(query))
             .then((result) => {
-                console.log(result, 'ini hasil')
-
                 obj.totalPage = Math.ceil(result.total / +limitVal)
                 obj.totalData = result.total || 0
                 obj.currentPage = pageVal
@@ -35,15 +33,13 @@ class PostController {
                 obj.data = result.data.map((data) => data.toListData());
 
             })
-        console.log(obj, 'ini caonsole log')
         return res.status(200).json(obj)
 
     }
 
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = req.app.locals.credentials
-            console.log(req, 'ini file')
+            const user = req.app.locals.credential
             const image = req.file.path
             const data = await PostService.create(new CreatePostRequest(req.body), user, image)
             return res.status(201).json({ success: true })
@@ -83,7 +79,16 @@ class PostController {
         } catch (error) {
             next(error)
         }
+    }
 
+    findByUserLogin = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = req.app.locals.credential
+            const data = await PostService.findByUserLogin(user)
+            return res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

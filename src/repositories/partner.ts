@@ -5,7 +5,6 @@ import Partner from '../models/Partner';
 class PartnerRepository {
 
     async create(partnerEntity: PartnerEntity): Promise<PartnerEntity> {
-        console.log(partnerEntity, 'ini console request')
         const post: { [k: string]: any } = await Partner.create({
             uuid: partnerEntity.getUuid,
             user_uuid: partnerEntity.getUserUuid,

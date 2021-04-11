@@ -10,8 +10,7 @@ class UpdatePostRequest {
         this._category = body.category;
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
-        this._for_adoption = body.for_adoption;
-        this._want_adoption = body.want_adoption;
+        this._adoption = body.adoption;
         this._image = body.image;
     }
     get user_uuid() {
@@ -35,11 +34,8 @@ class UpdatePostRequest {
     get category() {
         return this.category;
     }
-    get for_adoption() {
-        return this._for_adoption;
-    }
-    get want_adoption() {
-        return this._want_adoption;
+    get adoption() {
+        return this._adoption;
     }
     get animal_type() {
         return this._animal_type;

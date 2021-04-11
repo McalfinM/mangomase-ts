@@ -6,7 +6,6 @@ import Comment from '../models/Post';
 class CommentRepository {
 
     async create(postEntitiy: PostEntity): Promise<PostEntity> {
-        console.log(postEntitiy, 'ini console request')
         const post: { [k: string]: any } = await Post.updateOne({ uuid: postEntitiy.getUuid },
             {
                 $push: {

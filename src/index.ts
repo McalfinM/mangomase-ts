@@ -10,11 +10,13 @@ import postRoutes from './routes/post'
 import commentRoutes from './routes/comment'
 import partnerRoutes from './routes/partner'
 import provinceRoutes from './routes/province'
+import clanRoutes from './routes/clan'
 import err from './middleware/errorMiddleware'
 import multer from 'multer'
 import { BadRequest } from '@tsed/exceptions'
 // import { v4 as uuidv4 } from 'uuid'
 import path from 'path'
+dotenv.config()
 // const fileStorage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         cb(null, 'images')
@@ -64,6 +66,7 @@ class App {
         this.app.use('/api/v1/comments', commentRoutes)
         this.app.use('/api/v1/partners', partnerRoutes)
         this.app.use('/api/v1/provinces', provinceRoutes)
+        this.app.use('/api/v1/clans', clanRoutes)
     }
 
 }
