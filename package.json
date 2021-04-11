@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon \"tsc -w\" \"nodemon build/index.js\"",
-    "start": "ts-node-dev --inspect=9227 src/index.ts",
+    "start": "node build/index.js",
     "ts": "rm -rf build/ && tsc -w",
     "build": "npx tsc",
     "gcp-build": "tsc -p",
