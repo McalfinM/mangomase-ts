@@ -10,7 +10,6 @@ class CommentService {
     async create(request: CreateCommentPostRequest, user: { [k: string]: any }): Promise<PostEntity> {
 
         const searchPost = await PostService.findByUuid(request.post_uuid ?? '')
-        console.log(searchPost, 'ini search')
         const comments = await CommentRepository.create(new PostEntity({
             uuid: searchPost.getUuid,
             comment: [{

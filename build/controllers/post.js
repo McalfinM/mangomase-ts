@@ -31,8 +31,7 @@ class PostController {
     constructor() {
         this.create = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = req.app.locals.credentials;
-                console.log(req, 'ini file');
+                const user = req.app.locals.credential;
                 const image = req.file.path;
                 const data = yield post_1.default.create(new createPostRequest_1.default(req.body), user, image);
                 return res.status(201).json({ success: true });
@@ -74,6 +73,16 @@ class PostController {
                 next(error);
             }
         });
+        this.findByUserLogin = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = req.app.locals.credential;
+                const data = yield post_1.default.findByUserLogin(user);
+                return res.status(200).json(data);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
     findAll(req, res) {
         var _a, _b;
@@ -91,7 +100,6 @@ class PostController {
             };
             yield post_1.default.index(new getPostRequest_1.default(query))
                 .then((result) => {
-                console.log(result, 'ini hasil');
                 obj.totalPage = Math.ceil(result.total / +limitVal);
                 obj.totalData = result.total || 0;
                 obj.currentPage = pageVal;
@@ -102,7 +110,6 @@ class PostController {
                 // res.setHeader("X-Pagination-Limit", limitVal);
                 obj.data = result.data.map((data) => data.toListData());
             });
-            console.log(obj, 'ini caonsole log');
             return res.status(200).json(obj);
         });
     }

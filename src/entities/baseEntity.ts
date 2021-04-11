@@ -1,5 +1,12 @@
+import { TypedSerializer } from "ts-typed";
+
+
 abstract class BaseEntity {
-  abstract toJson(): object;
+  constructor() { }
+
+  toJSON(): this {
+    return TypedSerializer.serialize(this)
+  }
 }
 
 export default BaseEntity;

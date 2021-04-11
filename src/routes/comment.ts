@@ -6,7 +6,7 @@ import { auth } from '../middleware/authMiddleware'
 class CommentRoutes extends BaseRoutes {
     public routes(): void {
         // this.router.get('/', commentController.getAll)
-        this.router.post('/', commentController.create)
+        this.router.post('/', auth, commentController.create)
         this.router.put('/:uuid', commentController.update)
         // this.router.get('/:uuid', commentController.findOne)
     }

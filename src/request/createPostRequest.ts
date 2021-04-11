@@ -12,8 +12,7 @@ class CreatePostRequest {
     protected _age: number
     protected _category: string
     protected _clan_uuid: string;
-    protected _for_adoption: boolean;
-    protected _want_adoption: boolean;
+    protected _adoption: boolean;
     protected _comment?: IComment[] | []
     protected _animal_type: string;
     protected _image: string;
@@ -27,7 +26,7 @@ class CreatePostRequest {
         clan_uuid: string
         category: string
         animal_type: string
-        for_adoption: boolean
+        adoption: boolean
         comment: []
         want_adoption: boolean
         image: string
@@ -41,8 +40,7 @@ class CreatePostRequest {
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
         this._comment = body.comment
-        this._for_adoption = body.for_adoption;
-        this._want_adoption = body.want_adoption;
+        this._adoption = body.adoption;
         this._image = body.image;
     }
 
@@ -72,11 +70,8 @@ class CreatePostRequest {
     get comment(): IComment[] | [] | undefined {
         return this._comment
     }
-    get for_adoption(): boolean | null {
-        return this._for_adoption
-    }
-    get want_adoption(): boolean | null {
-        return this._want_adoption
+    get adoption(): boolean | null {
+        return this._adoption
     }
     get animal_type(): string | null {
         return this._animal_type

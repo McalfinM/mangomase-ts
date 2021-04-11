@@ -7,7 +7,6 @@ import specificationInterface from './specifications/specificationInterface';
 class PostRepository {
 
     create = async (postEntity: PostEntity): Promise<PostEntity> => {
-        console.log(postEntity, 'ini post entity')
         const post: { [k: string]: any } = await Post.create({
             uuid: postEntity.getUuid,
             user_uuid: postEntity.getUserUuid,
@@ -18,8 +17,7 @@ class PostRepository {
             category: postEntity.getCategory,
             clan_uuid: postEntity.getClanUuid,
             animal_type: postEntity.getAnimalType,
-            for_adoption: postEntity.getForAdoption,
-            want_adoption: postEntity.getWantdoption,
+            adoption: postEntity.getForAdoption,
             image: postEntity.getImage,
             created_at: postEntity.getCreatedAt ?? new Date,
             updated_at: postEntity.getUpdatedAt ?? null,
@@ -31,7 +29,6 @@ class PostRepository {
     }
 
     update = async (postEntity: PostEntity, user: { [k: string]: any }): Promise<PostEntity> => {
-        console.log(postEntity.getUuid, 'ini adalah post')
         return await Post.updateOne({ uuid: postEntity.getUuid },
             {
                 user_uuid: postEntity.getUserUuid,
@@ -41,8 +38,8 @@ class PostRepository {
                 age: postEntity.getAge,
                 clan_uuid: postEntity.getClanUuid,
                 animal_type: postEntity.getAnimalType,
-                for_adoption: postEntity.getForAdoption,
-                want_adoption: postEntity.getWantdoption,
+                adoption: postEntity.getForAdoption,
+
                 image: postEntity.getImage,
                 updated_at: postEntity.getUpdatedAt ?? null,
             })
@@ -62,8 +59,7 @@ class PostRepository {
             comment: postEntity.comment ?? [],
             age: postEntity?.age,
             image: postEntity?.image,
-            for_adoption: postEntity.for_adoption ?? false,
-            want_adoption: postEntity.want_adoption ?? false,
+            adoption: postEntity.adoption ?? false,
             created_at: postEntity?.created_at,
             updated_at: postEntity?.updated_at ?? null,
         }) : null
@@ -91,8 +87,7 @@ class PostRepository {
             age: postEntity?.age,
             comment: postEntity.comment ?? [],
             image: postEntity?.image,
-            for_adoption: postEntity.for_adoption ?? false,
-            want_adoption: postEntity.want_adoption ?? false,
+            adoption: postEntity.adoption ?? false,
             created_at: postEntity?.created_at,
             updated_at: postEntity?.updated_at ?? null,
         }) : null
@@ -103,10 +98,8 @@ class PostRepository {
     }
 
     async findByUserLogin(user: { [k: string]: any }): Promise<PostEntity[]> {
-
-        return Post.find(
-            { user_uuid: user.uuid },
-            { $or: [{ deleted_at: null }, { deleted_at: undefined }] },
+        return await Post.find(
+            { user_uuid: user.uuid, deleted_at: null },
         )
             .then(result => {
                 return result.map(data => {
@@ -120,8 +113,7 @@ class PostRepository {
                         category: data.category ?? '',
                         clan_uuid: data?.clan_uuid ?? '',
                         animal_type: data?.animal_type ?? '',
-                        for_adoption: data?.for_adoption ?? false,
-                        want_adoption: data?.want_adoption ?? false,
+                        adoption: data?.adoption ?? false,
                         image: data?.image ?? 'animal.jpg',
                         comment: data?.comment ?? [],
                         created_at: data?.created_at ?? new Date,
@@ -170,8 +162,7 @@ class PostRepository {
                             clan: data?.clan ?? null,
                             animal_type: data?.animal_type ?? '',
                             category: data.category ?? '',
-                            for_adoption: data?.for_adoption ?? false,
-                            want_adoption: data?.want_adoption ?? false,
+                            adoption: data?.adoption ?? false,
                             image: data?.image ?? 'animal.jpg',
                             comment: data?.comment ?? [],
                             created_at: data?.created_at ?? new Date,
@@ -185,6 +176,7 @@ class PostRepository {
                 return err;
             });
     }
+
 
 }
 

@@ -13,6 +13,13 @@ const CommentSchema: Schema = new Schema(
     }
 );
 
+CommentSchema.virtual('user', {
+    ref: 'user',
+    localField: 'user_uuid',
+    foreignField: 'uuid',
+    justOne: true,
+});
+
 const Comment: Model<IComment> = model("comment", CommentSchema);
 
 export default Comment;

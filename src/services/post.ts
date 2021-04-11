@@ -26,7 +26,7 @@ class PostService {
 
         const postEntity: PostEntity = new PostEntity({
             uuid: uuidv4(),
-            user_uuid: '7gd74-5895-59gf-589njn54-5945j4nj',
+            user_uuid: user.uuid,
             title: request.title ?? '',
             content: request.content ?? '',
             slug: slugify(request.title + '-' + uuidv4()),
@@ -35,8 +35,7 @@ class PostService {
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
             image: image ?? 'images/posts/pet.jpg',
-            for_adoption: request.for_adoption ?? false,
-            want_adoption: request.want_adoption ?? false,
+            adoption: request.adoption ?? false,
             created_at: new Date,
             updated_at: null
         })
@@ -56,8 +55,7 @@ class PostService {
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
             image: request.image ?? 'pet.jpg',
-            for_adoption: request.for_adoption ?? false,
-            want_adoption: request.want_adoption ?? false,
+            adoption: request.adoption ?? false,
             updated_at: new Date
         })
         const post = await PostRepository.update(postEntity, user);
@@ -66,7 +64,7 @@ class PostService {
 
     async findOne(uuid: string): Promise<PostQueryEntity> {
         const post: PostQueryEntity | null = await PostRepository.findOne(uuid)
-        if (!post) throw new BadRequest('Post Not Found')
+        if (!post) throw new BadRequest('Post Not Found find one')
 
         return post
     }
@@ -81,6 +79,11 @@ class PostService {
     async delete(uuid: string): Promise<object> {
         const post = await PostRepository.delete(uuid)
         if (!post) throw new BadRequest('Post Not Found')
+        return post
+    }
+
+    async findByUserLogin(user: { [k: string]: any }): Promise<PostEntity[]> {
+        const post = await PostRepository.findByUserLogin(user)
         return post
     }
 }

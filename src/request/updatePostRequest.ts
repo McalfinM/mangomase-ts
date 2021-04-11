@@ -6,8 +6,7 @@ class UpdatePostRequest {
     protected _age: number
     protected _category: string;
     protected _clan_uuid: string;
-    protected _for_adoption: boolean;
-    protected _want_adoption: boolean;
+    protected _adoption: boolean;
     protected _animal_type: string;
     protected _image: string;
 
@@ -20,7 +19,7 @@ class UpdatePostRequest {
         category: string
         clan_uuid: string
         animal_type: string
-        for_adoption: boolean
+        adoption: boolean
         want_adoption: boolean
         image: string
     }) {
@@ -32,8 +31,7 @@ class UpdatePostRequest {
         this._category = body.category;
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
-        this._for_adoption = body.for_adoption;
-        this._want_adoption = body.want_adoption;
+        this._adoption = body.adoption;
         this._image = body.image;
     }
 
@@ -58,11 +56,8 @@ class UpdatePostRequest {
     get category(): string {
         return this.category
     }
-    get for_adoption(): boolean | null {
-        return this._for_adoption
-    }
-    get want_adoption(): boolean | null {
-        return this._want_adoption
+    get adoption(): boolean | null {
+        return this._adoption
     }
     get animal_type(): string | null {
         return this._animal_type

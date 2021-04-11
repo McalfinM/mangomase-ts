@@ -20,8 +20,7 @@ export interface IPost extends Document {
     clan_uuid?: string | null
     animal_type?: string | null
     clan?: { [k: string]: any } | null
-    for_adoption?: boolean | null
-    want_adoption?: boolean | null
+    adoption?: boolean | null
     image?: string | null
     comment?: IComment[] | []
     deleted_at?: Date | null | undefined

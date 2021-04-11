@@ -8,9 +8,9 @@ import http from 'http'
 
 class UserController {
 
-    find = async (req: Request, res: Response, next: NextFunction) =>{
+    find = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            
+
             const data = await UserService.find()
 
             return res.status(200).json({
@@ -20,10 +20,10 @@ class UserController {
         } catch (err) {
             next(err)
         }
-    
+
     }
 
-    findOne = async(req: Request, res: Response, next: NextFunction) =>{
+    findOne = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const url = req.originalUrl
             const uuid = req.app.locals.credential.uuid
@@ -36,28 +36,38 @@ class UserController {
         }
     }
 
-    create = async (req: Request, res: Response, next: NextFunction)=>{
+    create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const {name,email,password} = req.body
-            const data = await UserService.create(name,email,password)
+            const { name, email, password } = req.body
+            const data = await UserService.create(name, email, password)
 
             return res.status(201).json(data)
 
-        } catch (error){
+        } catch (error) {
             next(error)
         }
     }
 
-    update = async() =>{
+    profile = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = req.app.locals.credential
+            const data = await UserService.profile(user)
+            return res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    update = async () => {
         //
     }
 
-    delete = () =>{
+    delete = () => {
         //
     }
 
     // create_role = async (req: Request, res: Response, next: NextFunction)=>{
-    
+
     //     const {name} = req.body
     //     const role = await Role.create(
     //         {
@@ -67,12 +77,12 @@ class UserController {
     //     )
 
     //     return res.status(201).json(role)
-    
+
     // }
 
-     create_role = async (req: Request, res: Response, next: NextFunction)=>{
-    
-        const {user_uuid,role_uuid,access} = req.body
+    create_role = async (req: Request, res: Response, next: NextFunction) => {
+
+        const { user_uuid, role_uuid, access } = req.body
         const role = await AccessMenu.create(
             {
                 uuid: uuid(),
@@ -83,7 +93,7 @@ class UserController {
         )
 
         return res.status(201).json(role)
-    
+
     }
 }
 

@@ -17,8 +17,7 @@ class PostEntity extends baseEntity_1.default {
         this.clan_uuid = params.clan_uuid;
         this.category = params.category;
         this.animal_type = params.animal_type;
-        this.for_adoption = params.for_adoption;
-        this.want_adoption = params.want_adoption;
+        this.adoption = params.adoption;
         this.image = params.image;
         this.comment = params.comment;
         this.deleted_at = params.deleted_at;
@@ -69,16 +68,10 @@ class PostEntity extends baseEntity_1.default {
         this.slug = slug;
     }
     get getForAdoption() {
-        return this.for_adoption;
+        return this.adoption;
     }
-    set setForAdoption(for_adoption) {
-        this.for_adoption = for_adoption;
-    }
-    get getWantdoption() {
-        return this.want_adoption;
-    }
-    set setWantdoption(want_adoption) {
-        this.want_adoption = want_adoption;
+    set setForAdoption(adoption) {
+        this.adoption = adoption;
     }
     get getAge() {
         return this.age;
@@ -139,8 +132,7 @@ class PostEntity extends baseEntity_1.default {
             category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
-            for_adaption: this.for_adoption,
-            want_adaption: this.want_adoption,
+            adoption: this.adoption,
             image: this.image,
             comment: this.comment,
             created_at: this.created_at,
