@@ -43,8 +43,8 @@ class UserService {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             const searchUser = yield user_1.default.findOne(user.uuid);
-            const province = yield province_1.default.findOne((_a = searchUser === null || searchUser === void 0 ? void 0 : searchUser.province_uuid) !== null && _a !== void 0 ? _a : '');
-            const city = yield city_1.default.findOne((_b = searchUser === null || searchUser === void 0 ? void 0 : searchUser.city_uuid) !== null && _b !== void 0 ? _b : '');
+            const province = yield province_1.default.findOneChange((_a = searchUser === null || searchUser === void 0 ? void 0 : searchUser.province_uuid) !== null && _a !== void 0 ? _a : '');
+            const city = yield city_1.default.findOneChange((_b = searchUser === null || searchUser === void 0 ? void 0 : searchUser.city_uuid) !== null && _b !== void 0 ? _b : '');
             const data = yield user_1.default.profile(user, province, city);
             if (!data)
                 throw new Error('data not found');

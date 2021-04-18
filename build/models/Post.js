@@ -27,5 +27,11 @@ PostSchema.virtual('clan', {
     foreignField: 'uuid',
     justOne: true,
 });
+PostSchema.virtual('user', {
+    ref: 'User',
+    localField: 'user_uuid',
+    foreignField: 'uuid',
+    justOne: true,
+});
 const Post = mongoose_1.model("post", PostSchema);
 exports.default = Post;

@@ -23,6 +23,12 @@ class ProvinceService {
             return province;
         });
     }
+    findOneChange(uuid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const province = yield province_1.default.findOne(uuid);
+            return province;
+        });
+    }
     findAll(query) {
         return __awaiter(this, void 0, void 0, function* () {
             const province = yield province_1.default.index(query);

@@ -19,6 +19,7 @@ class PostQueryEntity extends baseEntity_1.default {
         this.category = params.category;
         this.animal_type = params.animal_type;
         this.adoption = params.adoption;
+        this.user = params.user;
         this.image = params.image;
         this.comment = params.comment;
         this.deleted_at = params.deleted_at;
@@ -104,6 +105,12 @@ class PostQueryEntity extends baseEntity_1.default {
     set setImage(image) {
         this.image = image;
     }
+    get getUser() {
+        return this.user;
+    }
+    set setUser(user) {
+        this.user = user;
+    }
     get getComment() {
         return this.comment;
     }
@@ -139,6 +146,7 @@ class PostQueryEntity extends baseEntity_1.default {
             category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
+            user: this.user,
             clan: this.clan,
             adoption: this.adoption,
             image: this.image,
@@ -158,6 +166,7 @@ class PostQueryEntity extends baseEntity_1.default {
             category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
+            user: this.user,
             adoption: this.adoption,
             clan: this.clan,
             want_adaption: this.want_adoption,

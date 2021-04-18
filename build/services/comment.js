@@ -24,6 +24,7 @@ class CommentService {
             const searchPost = yield post_2.default.findByUuid((_a = request.post_uuid) !== null && _a !== void 0 ? _a : '');
             const comments = yield comment_1.default.create(new post_1.default({
                 uuid: searchPost.getUuid,
+                user: null,
                 comment: [{
                         uuid: uuid_1.v4(),
                         user_uuid: user.uuid,
@@ -40,6 +41,7 @@ class CommentService {
         return __awaiter(this, void 0, void 0, function* () {
             const comments = yield comment_1.default.update(new post_1.default({
                 uuid: request.post_uuid,
+                user: null,
                 comment: [{
                         user_uuid: request.user_uuid,
                         comment: request.comment,
