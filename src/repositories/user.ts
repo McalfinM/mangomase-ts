@@ -40,7 +40,7 @@ class UserRepository {
         return user
     }
 
-    async profile(user: { [k: string]: any }, province: ProvinceEntity, city: CityEntity | null): Promise<UserEntity | null> {
+    async profile(user: { [k: string]: any }, province: ProvinceEntity | null, city: CityEntity | null): Promise<UserEntity | null> {
         const user_data = await User.findOne({ uuid: user.uuid }).populate('province')
             .populate('city')
             .exec()

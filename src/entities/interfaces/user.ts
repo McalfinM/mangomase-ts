@@ -8,7 +8,7 @@ export interface IUserEntity {
     password?: string
     image?: string | null
     province_uuid: string | null
-    province?: ProvinceEntity | undefined
+    province?: ProvinceEntity | null | undefined
     city_uuid: string | null
     city?: CityEntity | null | undefined
     is_verified?: boolean
