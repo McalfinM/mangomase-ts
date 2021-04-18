@@ -11,6 +11,7 @@ const uuid_1 = require("uuid");
 const exceptions_1 = require("@tsed/exceptions");
 const fileStorage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
+        console.log(file, 'ini file');
         cb(null, 'images/posts');
     },
     filename: (req, file, cb) => {
@@ -33,6 +34,7 @@ class postRoutes extends baseRoutes_1.default {
         this.router.post('/', authMiddleware_1.auth, multer_1.default({ storage: fileStorage, fileFilter: fileFilter }).single('image'), post_1.default.create);
         this.router.patch('/:uuid', post_1.default.update);
         this.router.get('/:uuid', post_1.default.findOne);
+        this.router.get('/detail/:uuid', authMiddleware_1.auth, post_1.default.findOneForEdit);
     }
 }
 exports.default = new postRoutes().router;

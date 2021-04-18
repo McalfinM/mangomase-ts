@@ -5,7 +5,7 @@ import UpdatePostRequest from "../request/updatePostRequest"
 import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 import { ErrorNotFound } from "../utils/errors";
-import { BadRequest } from "@tsed/exceptions";
+import { BadRequest, Unauthorized } from "@tsed/exceptions";
 import GetPostRequest from '../request/getPostRequest'
 import GetPostSpecification from "../repositories/specifications/getPostSpecification";
 import PostQueryEntity from "../entities/postQueries";
@@ -33,6 +33,7 @@ class PostService {
             clan_uuid: request.clan_uuid ?? '',
             category: request.category ?? '',
             animal_type: request.animal_type ?? '',
+            user: null,
             age: request.age ?? 0,
             image: image ?? 'images/posts/pet.jpg',
             adoption: request.adoption ?? false,
@@ -54,6 +55,7 @@ class PostService {
             category: request.category ?? '',
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
+            user: null,
             image: request.image ?? 'pet.jpg',
             adoption: request.adoption ?? false,
             updated_at: new Date
@@ -69,9 +71,18 @@ class PostService {
         return post
     }
 
+    async findOneForEdit(uuid: string, user: { [k: string]: any }): Promise<PostQueryEntity> {
+        const post: PostQueryEntity | null = await PostRepository.findByUuid(uuid)
+        console.log(post, 'ini hasil')
+        if (!post) throw new BadRequest('Post Not Found')
+        if (post.getUserUuid !== user.uuid) throw new Unauthorized('Unauthorized')
 
-    async findByUuid(uuid: string): Promise<PostEntity> {
-        const post: PostEntity | null = await PostRepository.findByUuid(uuid)
+        return post
+    }
+
+
+    async findByUuid(uuid: string): Promise<PostQueryEntity> {
+        const post: PostQueryEntity | null = await PostRepository.findByUuid(uuid)
         if (!post) throw new BadRequest('Post Not Found')
         return post
     }

@@ -8,13 +8,14 @@ import PostService from '../services/post'
 
 class CommentService {
     async create(request: CreateCommentPostRequest, user: { [k: string]: any }): Promise<PostEntity> {
-
+        console.log(user)
         const searchPost = await PostService.findByUuid(request.post_uuid ?? '')
         const comments = await CommentRepository.create(new PostEntity({
             uuid: searchPost.getUuid,
+            user: null,
             comment: [{
                 uuid: uuidv4(),
-                user_uuid: request.user_uuid,
+                user_uuid: user.uuid,
                 comment: request.comment,
                 created_at: new Date,
                 deleted_at: null
@@ -27,6 +28,7 @@ class CommentService {
 
         const comments = await CommentRepository.update(new PostEntity({
             uuid: request.post_uuid,
+            user: null,
             comment: [{
                 user_uuid: request.user_uuid,
                 comment: request.comment,

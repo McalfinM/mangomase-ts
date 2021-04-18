@@ -11,6 +11,11 @@ class UserEntity extends baseEntity_1.default {
         this._email = params.email;
         this._name = params.name;
         this._password = params.password;
+        this._image = params.image;
+        this._province_uuid = params.province_uuid;
+        this._province = params.province;
+        this._city_uuid = params.city_uuid;
+        this._city = params.city;
         this._is_verified = params.is_verified;
         this._is_deleted = params.is_deleted;
         this._created_at = params.created_at;
@@ -27,6 +32,21 @@ class UserEntity extends baseEntity_1.default {
     }
     get password() {
         return this._password;
+    }
+    get image() {
+        return this._image;
+    }
+    get province_uuid() {
+        return this._province_uuid;
+    }
+    get province() {
+        return this._province;
+    }
+    get city_uuid() {
+        return this._city_uuid;
+    }
+    get city() {
+        return this._city;
     }
     get is_verified() {
         return this._is_verified;

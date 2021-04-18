@@ -5,6 +5,8 @@ import UserService from '../services/user'
 import { v4 as uuid } from 'uuid'
 import AccessMenu from '../models/AccessMenu'
 import http from 'http'
+import HttpResponse from '../helpers/HttpResponse'
+import { HttpErrorHandler } from '../utils/errors'
 
 class UserController {
 
@@ -58,8 +60,16 @@ class UserController {
         }
     }
 
-    update = async () => {
-        //
+    async update(req: Request, res: Response, next: NextFunction): Promise<object> {
+        const request = req.body
+        const user = req.app.locals.credential
+        return await UserService.update(request, user)
+            .then(data => {
+                return HttpResponse.success(req, res, { data: data })
+            }).catch(error => {
+                return HttpErrorHandler(error, req, res)
+            })
+
     }
 
     delete = () => {

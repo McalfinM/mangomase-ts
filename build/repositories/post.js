@@ -59,7 +59,7 @@ class PostRepository {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         return __awaiter(this, void 0, void 0, function* () {
             const postEntity = yield Post_1.default.findOne({ uuid: uuid });
-            return postEntity ? new post_1.default({
+            return postEntity ? new postQueries_1.default({
                 uuid: (_a = postEntity.uuid) !== null && _a !== void 0 ? _a : '',
                 user_uuid: postEntity === null || postEntity === void 0 ? void 0 : postEntity.user_uuid,
                 title: (_b = postEntity.title) !== null && _b !== void 0 ? _b : '',

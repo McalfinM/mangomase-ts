@@ -1,7 +1,7 @@
 import { model, Schema, Model } from "mongoose";
 import { IProvince } from './interfaces/province'
 
-const CommentSchema: Schema = new Schema(
+const ProvinceSchema: Schema = new Schema(
     {
         uuid: { type: String },
         code: { type: String },
@@ -9,6 +9,6 @@ const CommentSchema: Schema = new Schema(
     }
 );
 
-const Province: Model<IProvince> = model("province", CommentSchema);
+const Province: Model<IProvince> = model("province", ProvinceSchema);
 
 export default Province;

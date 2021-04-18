@@ -75,6 +75,17 @@ class PostService {
             return post;
         });
     }
+    findOneForEdit(uuid, user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const post = yield post_2.default.findByUuid(uuid);
+            console.log(post, 'ini hasil');
+            if (!post)
+                throw new exceptions_1.BadRequest('Post Not Found');
+            if (post.getUserUuid !== user.uuid)
+                throw new exceptions_1.Unauthorized('Unauthorized');
+            return post;
+        });
+    }
     findByUuid(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield post_2.default.findByUuid(uuid);

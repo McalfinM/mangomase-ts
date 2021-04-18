@@ -61,6 +61,17 @@ class PostController {
                 next(error);
             }
         });
+        this.findOneForEdit = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { params: { uuid } } = req;
+                const user = req.app.locals.credential;
+                const data = yield post_1.default.findOneForEdit(uuid, user);
+                return res.status(200).json(data);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
         this.delete = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { params: { uuid } } = req;

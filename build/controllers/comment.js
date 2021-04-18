@@ -18,7 +18,7 @@ class CommentController {
     constructor() {
         this.create = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = req.app.locals.credentials;
+                const user = req.app.locals.credential;
                 const data = yield comment_1.default.create(new createCommentPostRequest_1.default(req.body), user);
                 return res.status(201).json({ success: true });
             }

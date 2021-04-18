@@ -67,7 +67,17 @@ class PostController {
         } catch (error) {
             next(error)
         }
+    }
 
+    findOneForEdit = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { params: { uuid } } = req
+            const user = req.app.locals.credential
+            const data = await PostService.findOneForEdit(uuid, user)
+            return res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
     }
 
     delete = async (req: Request, res: Response, next: NextFunction) => {

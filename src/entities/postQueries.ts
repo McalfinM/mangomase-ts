@@ -1,6 +1,7 @@
 
 import BaseEntity from "./baseEntity";
 import { IPostEntity, IComment } from './interfaces/post'
+import UserEntity from "./user";
 
 class PostQueryEntity extends BaseEntity {
     protected id?: string | null
@@ -18,6 +19,7 @@ class PostQueryEntity extends BaseEntity {
     protected image?: string | null
     protected clan?: { [k: string]: any } | null
     protected comment?: IComment[] | []
+    protected user?: UserEntity | null
     protected deleted_at?: Date | null
     protected created_at?: Date | null
     protected updated_at?: Date | null
@@ -37,6 +39,7 @@ class PostQueryEntity extends BaseEntity {
         this.category = params.category;
         this.animal_type = params.animal_type;
         this.adoption = params.adoption;
+        this.user = params.user;
         this.image = params.image;
         this.comment = params.comment;
         this.deleted_at = params.deleted_at;
@@ -148,6 +151,14 @@ class PostQueryEntity extends BaseEntity {
         this.image = image;
     }
 
+    get getUser(): UserEntity | null | undefined {
+        return this.user
+    }
+
+    set setUser(user: UserEntity | null) {
+        this.user = user
+    }
+
     get getComment(): IComment[] | [] | any {
         return this.comment;
     }
@@ -191,6 +202,7 @@ class PostQueryEntity extends BaseEntity {
             category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
+            user: this.user,
             clan: this.clan,
             adoption: this.adoption,
             image: this.image,
@@ -211,6 +223,7 @@ class PostQueryEntity extends BaseEntity {
             category: this.category,
             clan_uuid: this.clan_uuid,
             animal_type: this.animal_type,
+            user: this.user,
             adoption: this.adoption,
             clan: this.clan,
             want_adaption: this.want_adoption,

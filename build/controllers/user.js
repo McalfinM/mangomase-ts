@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../services/user"));
 const uuid_1 = require("uuid");
 const AccessMenu_1 = __importDefault(require("../models/AccessMenu"));
+const HttpResponse_1 = __importDefault(require("../helpers/HttpResponse"));
+const errors_1 = require("../utils/errors");
 class UserController {
     constructor() {
         this.find = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -61,9 +63,6 @@ class UserController {
                 next(error);
             }
         });
-        this.update = () => __awaiter(this, void 0, void 0, function* () {
-            //
-        });
         this.delete = () => {
             //
         };
@@ -86,6 +85,18 @@ class UserController {
                 access_BE: access
             });
             return res.status(201).json(role);
+        });
+    }
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const request = req.body;
+            const user = req.app.locals.credential;
+            return yield user_1.default.update(request, user)
+                .then(data => {
+                return HttpResponse_1.default.success(req, res, { data: data });
+            }).catch(error => {
+                return errors_1.HttpErrorHandler(error, req, res);
+            });
         });
     }
 }

@@ -1,3 +1,5 @@
+import UserEntity from "../user";
+import { IUserEntity } from "./user";
 
 export interface IUserComment {
     uuid: string
@@ -31,6 +33,7 @@ export interface IPostEntity {
     image?: string | null;
     adoption?: boolean
     comment?: IComment[] | []
+    user: UserEntity | null
     deleted_at?: Date | null
     created_at?: Date | null;
     updated_at?: Date | null;

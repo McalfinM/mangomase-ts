@@ -20,12 +20,13 @@ class CommentService {
     create(request, user) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(user);
             const searchPost = yield post_2.default.findByUuid((_a = request.post_uuid) !== null && _a !== void 0 ? _a : '');
             const comments = yield comment_1.default.create(new post_1.default({
                 uuid: searchPost.getUuid,
                 comment: [{
                         uuid: uuid_1.v4(),
-                        user_uuid: request.user_uuid,
+                        user_uuid: user.uuid,
                         comment: request.comment,
                         created_at: new Date,
                         deleted_at: null
