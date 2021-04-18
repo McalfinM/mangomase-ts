@@ -8,7 +8,7 @@ class UserEntity extends BaseEntity {
     protected _email?: string
     protected _name?: string | null
     protected _image?: string | null
-    protected _province?: ProvinceEntity | undefined
+    protected _province?: ProvinceEntity | null | undefined
     protected _province_uuid: string | null
     protected _city_uuid: string | null
     protected _city?: CityEntity | null | undefined
@@ -58,7 +58,7 @@ class UserEntity extends BaseEntity {
     get province_uuid(): string | null {
         return this._province_uuid
     }
-    get province(): ProvinceEntity | undefined {
+    get province(): ProvinceEntity | null | undefined {
         return this._province
     }
     get city_uuid(): string | null {
