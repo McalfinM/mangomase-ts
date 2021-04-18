@@ -45,9 +45,9 @@ class PostRepository {
             })
     }
 
-    async findByUuid(uuid: string): Promise<PostEntity | null> {
+    async findByUuid(uuid: string): Promise<PostQueryEntity | null> {
         const postEntity = await Post.findOne({ uuid: uuid })
-        return postEntity ? new PostEntity({
+        return postEntity ? new PostQueryEntity({
             uuid: postEntity.uuid ?? '',
             user_uuid: postEntity?.user_uuid,
             title: postEntity.title ?? '',
@@ -55,6 +55,7 @@ class PostRepository {
             slug: postEntity.slug ?? '',
             clan_uuid: postEntity?.clan_uuid,
             animal_type: postEntity?.animal_type,
+            user: postEntity.user ?? null,
             category: postEntity.category ?? '',
             comment: postEntity.comment ?? [],
             age: postEntity?.age,
@@ -86,6 +87,7 @@ class PostRepository {
             category: postEntity.category ?? '',
             age: postEntity?.age,
             comment: postEntity.comment ?? [],
+            user: postEntity.user ?? null,
             image: postEntity?.image,
             adoption: postEntity.adoption ?? false,
             created_at: postEntity?.created_at,
@@ -114,6 +116,7 @@ class PostRepository {
                         clan_uuid: data?.clan_uuid ?? '',
                         animal_type: data?.animal_type ?? '',
                         adoption: data?.adoption ?? false,
+                        user: data.user ?? null,
                         image: data?.image ?? 'animal.jpg',
                         comment: data?.comment ?? [],
                         created_at: data?.created_at ?? new Date,
@@ -146,7 +149,8 @@ class PostRepository {
                 ...specification.paginate(),
                 sort: specification.specSort(),
             }
-        ).populate({ path: 'clan', select: ['uuid', 'name'], model: ClanCat })
+        ).populate('clan')
+            .populate({ path: 'user', select: ['name', 'province_uuid', 'city_uuid'], populate: [{ path: 'province' }, { path: 'city' }] })
             .then((result) => {
                 return {
                     total: total_customer,
@@ -163,6 +167,7 @@ class PostRepository {
                             animal_type: data?.animal_type ?? '',
                             category: data.category ?? '',
                             adoption: data?.adoption ?? false,
+                            user: data?.user ?? null,
                             image: data?.image ?? 'animal.jpg',
                             comment: data?.comment ?? [],
                             created_at: data?.created_at ?? new Date,

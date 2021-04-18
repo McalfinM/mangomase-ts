@@ -33,6 +33,13 @@ PostSchema.virtual('clan', {
     justOne: true,
 });
 
+PostSchema.virtual('user', {
+    ref: 'User',
+    localField: 'user_uuid',
+    foreignField: 'uuid',
+    justOne: true,
+});
+
 const Post: Model<IPost> = model("post", PostSchema);
 
 export default Post;

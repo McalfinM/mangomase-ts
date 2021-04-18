@@ -7,7 +7,7 @@ class CommentController {
 
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = req.app.locals.credentials
+            const user = req.app.locals.credential
             const data = await CommentService.create(new CreateCommentPostRequest(req.body), user)
             return res.status(201).json({ success: true })
         } catch (error) {

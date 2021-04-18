@@ -1,5 +1,7 @@
 import express from 'express'
 import { v4 as uuid } from 'uuid'
+import CityEntity from '../entities/cityEntity'
+import ProvinceEntity from '../entities/province'
 import UserEntity from '../entities/user'
 import User from '../models/User'
 import Authentication from '../utils/Authentication'
@@ -15,10 +17,21 @@ class UserRepository {
         return users
     }
 
-    findOne = async (uuid: string) => {
+    async findOne(uuid: string): Promise<UserEntity | null> {
         const user = await User.findOne({ uuid: uuid }).select('-_id -uuid -password -__v')
+        return user ? new UserEntity({
+            uuid: user.uuid ?? '',
+            email: user.email ?? '',
+            name: user.name ?? '',
+            image: user.image ?? '',
+            city_uuid: user.city_uuid ?? '',
+            province_uuid: user.province_uuid ?? '',
+            is_verified: user.is_verified ?? false,
+            is_deleted: user.is_deleted ?? false,
+            created_at: user.created_at ?? new Date,
+            deleted_at: user.deleted_at ?? new Date,
 
-        return user
+        }) : null
     }
 
     async findByEmail(email: string): Promise<any> {
@@ -27,13 +40,20 @@ class UserRepository {
         return user
     }
 
-    async profile(user: { [k: string]: any }): Promise<UserEntity | null> {
-        const user_data = await User.findOne({ uuid: user.uuid })
+    async profile(user: { [k: string]: any }, province: ProvinceEntity | null, city: CityEntity | null): Promise<UserEntity | null> {
+        const user_data = await User.findOne({ uuid: user.uuid }).populate('province')
+            .populate('city')
+            .exec()
 
         return user_data ? new UserEntity({
             uuid: user_data.uuid ?? '',
             email: user_data.email ?? '',
             name: user_data.name ?? '',
+            image: user_data.image ?? '',
+            city_uuid: user_data.city_uuid ?? '',
+            province: province,
+            city: city,
+            province_uuid: user_data.province_uuid ?? '',
             is_verified: user_data.is_verified ?? false,
             is_deleted: user_data.is_deleted ?? false,
             created_at: user_data.created_at ?? new Date,
@@ -45,7 +65,7 @@ class UserRepository {
     create = async (name: string, email: string, password: string) => {
 
         const hashPassword: string = await Authentication.hash(password)
-        const user = User.create({
+        const user = await User.create({
             uuid: uuid(),
             name: name,
             email: email,
@@ -55,8 +75,24 @@ class UserRepository {
         return user
     }
 
-    update = async () => {
-        //
+    update = async (data: UserEntity) => {
+        const user = await User.updateOne({ uuid: data.uuid }, {
+            name: data.name,
+            city_uuid: data.city_uuid ?? '',
+            province_uuid: data.province_uuid ?? ''
+        })
+
+        return user
+    }
+
+    updatePassword = async (data: UserEntity) => {
+        const user = await User.updateOne({ uuid: data.uuid }, {
+            $set: {
+                password: data.password
+            }
+        })
+
+        return user
     }
 
     delete = () => {

@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { BadRequest } from '@tsed/exceptions'
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log(file, 'ini file')
         cb(null, 'images/posts')
     },
     filename: (req, file, cb) => {
@@ -29,6 +30,7 @@ class postRoutes extends BaseRoutes {
         this.router.post('/', auth, multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'), postController.create)
         this.router.patch('/:uuid', postController.update)
         this.router.get('/:uuid', postController.findOne)
+        this.router.get('/detail/:uuid', auth, postController.findOneForEdit)
 
 
     }

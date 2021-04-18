@@ -1,4 +1,5 @@
 import { Document } from 'mongoose'
+import UserEntity from '../../entities/user';
 
 export interface IComment {
     uuid: string | null
@@ -21,6 +22,7 @@ export interface IPost extends Document {
     animal_type?: string | null
     clan?: { [k: string]: any } | null
     adoption?: boolean | null
+    user?: UserEntity | null
     image?: string | null
     comment?: IComment[] | []
     deleted_at?: Date | null | undefined

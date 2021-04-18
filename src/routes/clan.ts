@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { BadRequest } from '@tsed/exceptions'
 class clanRoutes extends BaseRoutes {
     public routes(): void {
-        this.router.get('/', auth, clanController.getAll)
+        this.router.get('/', clanController.getAll)
     }
 }
 
