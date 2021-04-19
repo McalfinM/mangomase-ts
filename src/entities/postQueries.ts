@@ -16,6 +16,7 @@ class PostQueryEntity extends BaseEntity {
     protected animal_type?: string | null
     protected adoption?: boolean
     protected want_adoption?: boolean
+    protected city_uuid?: string | null
     protected image?: string | null
     protected clan?: { [k: string]: any } | null
     protected comment?: IComment[] | []
@@ -36,6 +37,7 @@ class PostQueryEntity extends BaseEntity {
         this.age = params.age;
         this.clan = params.clan;
         this.clan_uuid = params.clan_uuid;
+        this.city_uuid = params.city_uuid
         this.category = params.category;
         this.animal_type = params.animal_type;
         this.adoption = params.adoption;
@@ -129,6 +131,14 @@ class PostQueryEntity extends BaseEntity {
 
     get getClanUuid(): string | null | undefined {
         return this.clan_uuid;
+    }
+
+    get getCityUuid(): string | null | undefined {
+        return this.city_uuid
+    }
+
+    set setCityUuid(city_uuid: string | null) {
+        this.city_uuid = city_uuid
     }
 
     set setClanUuid(clan_uuid: string) {

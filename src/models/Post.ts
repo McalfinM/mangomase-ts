@@ -12,6 +12,7 @@ const PostSchema: Schema = new Schema(
         clan_uuid: { type: String },
         category: { type: String },
         animal_type: { type: String },
+        city_uuid: { type: String },
         image: { type: String },
         comment: { type: Array },
         adoption: { type: Boolean },

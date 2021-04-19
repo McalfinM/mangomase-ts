@@ -58,6 +58,17 @@ class UserService {
         return await UserRepository.update(userEntity)
     }
 
+    async findOneUser(uuid: string): Promise<UserEntity | null> {
+        const user = await UserRepository.findOneUser(uuid)
+        return user ? new UserEntity({
+            uuid: user.uuid,
+            name: user.name,
+            email: user.email,
+            city_uuid: user.city_uuid ?? '',
+            province_uuid: user.province_uuid ?? '',
+        }) : null
+    }
+
     delete = () => {
 
     }

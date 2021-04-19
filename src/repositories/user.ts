@@ -70,6 +70,9 @@ class UserRepository {
             name: name,
             email: email,
             password: hashPassword,
+            province_uuid: null,
+            city_uuid: null,
+            created_at: new Date
         })
 
         return user
@@ -93,6 +96,24 @@ class UserRepository {
         })
 
         return user
+    }
+
+    async findOneUser(uuid: string): Promise<UserEntity | null> {
+        const user = await User.findOne({ uuid: uuid })
+
+        return user ? new UserEntity({
+            uuid: user.uuid ?? '',
+            email: user.email ?? '',
+            name: user.name ?? '',
+            image: user.image ?? '',
+            city_uuid: user.city_uuid ?? '',
+            province_uuid: user.province_uuid ?? '',
+            is_verified: user.is_verified ?? false,
+            is_deleted: user.is_deleted ?? false,
+            created_at: user.created_at ?? new Date,
+            deleted_at: user.deleted_at ?? new Date,
+
+        }) : null
     }
 
     delete = () => {

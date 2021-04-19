@@ -9,6 +9,8 @@ import { BadRequest, Unauthorized } from "@tsed/exceptions";
 import GetPostRequest from '../request/getPostRequest'
 import GetPostSpecification from "../repositories/specifications/getPostSpecification";
 import PostQueryEntity from "../entities/postQueries";
+import UserService from '../services/user'
+import CityService from '../services/city'
 
 class PostService {
 
@@ -23,7 +25,11 @@ class PostService {
         );
     }
     async create(request: CreatePostRequest, user: { [k: string]: any }, image: any): Promise<PostEntity> {
-
+        const searchUser = await UserService.findOneUser(user.uuid)
+        const city = await CityService.findOne(searchUser?.city_uuid ?? '')
+        if (searchUser?.province_uuid == '') {
+            throw new BadRequest('Please update your province first in change profile')
+        }
         const postEntity: PostEntity = new PostEntity({
             uuid: uuidv4(),
             user_uuid: user.uuid,
@@ -34,6 +40,7 @@ class PostService {
             category: request.category ?? '',
             animal_type: request.animal_type ?? '',
             user: null,
+            city_uuid: city.getUuid ?? null,
             age: request.age ?? 0,
             image: image ?? 'images/posts/pet.jpg',
             adoption: request.adoption ?? false,
@@ -45,6 +52,7 @@ class PostService {
     }
 
     async update(request: UpdatePostRequest, user: { [k: string]: any }, uuid: string): Promise<PostEntity> {
+        const city = await CityService.findOne(user.city_uuid ?? '')
         const postEntity: PostEntity = new PostEntity({
             uuid: uuid,
             user_uuid: '7gd74-5895-59gf-589njn54-5945j4nj',
@@ -56,6 +64,7 @@ class PostService {
             animal_type: request.animal_type ?? '',
             age: request.age ?? 0,
             user: null,
+            city_uuid: city.getUuid ?? null,
             image: request.image ?? 'pet.jpg',
             adoption: request.adoption ?? false,
             updated_at: new Date

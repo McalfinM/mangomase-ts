@@ -13,6 +13,7 @@ class PostEntity extends BaseEntity {
     protected category?: string
     protected animal_type?: string | null
     protected adoption?: boolean
+    protected city_uuid?: string | null
     protected image?: string | null
     protected comment?: IComment[] | []
     protected deleted_at?: Date | null
@@ -29,6 +30,7 @@ class PostEntity extends BaseEntity {
         this.slug = params.slug;
         this.age = params.age;
         this.clan_uuid = params.clan_uuid;
+        this.city_uuid = params.city_uuid
         this.category = params.category;
         this.animal_type = params.animal_type;
         this.adoption = params.adoption;
@@ -101,6 +103,14 @@ class PostEntity extends BaseEntity {
 
     set setForAdoption(adoption: boolean) {
         this.adoption = adoption
+    }
+
+    get getCityUuid(): string | null | undefined {
+        return this.city_uuid
+    }
+
+    set setCityUuid(city_uuid: string | null) {
+        this.city_uuid = city_uuid
     }
 
     get getAge(): number | null | undefined {
