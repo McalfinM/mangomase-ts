@@ -20,6 +20,7 @@ export interface IPost extends Document {
     category?: string | null;
     clan_uuid?: string | null
     animal_type?: string | null
+    city_uuid?: string | null
     clan?: { [k: string]: any } | null
     adoption?: boolean | null
     user?: UserEntity | null

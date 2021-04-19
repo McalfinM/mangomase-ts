@@ -54,7 +54,7 @@ class UpdatePostRequest {
         return this._clan_uuid
     }
     get category(): string {
-        return this.category
+        return this._category
     }
     get adoption(): boolean | null {
         return this._adoption

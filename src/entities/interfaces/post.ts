@@ -30,6 +30,7 @@ export interface IPostEntity {
     clan_uuid?: string | null;
     clan?: { [k: string]: any } | null
     animal_type?: string | null;
+    city_uuid?: string | null
     image?: string | null;
     adoption?: boolean
     comment?: IComment[] | []

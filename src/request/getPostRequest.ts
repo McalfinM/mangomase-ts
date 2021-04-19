@@ -7,6 +7,7 @@ class GetPostRequest {
     protected _age?: number
     protected _category?: string
     protected _clan_uuid?: string;
+    protected _city?: string;
     protected _for_adoption?: boolean;
     protected _want_adoption?: boolean;
     protected _animal_type?: string;
@@ -26,6 +27,7 @@ class GetPostRequest {
         category?: string
         animal_type?: string
         for_adoption?: boolean
+        city?: string
         want_adoption?: boolean
         sort_by?: any
         page?: number
@@ -40,6 +42,7 @@ class GetPostRequest {
         this._age = queryParams.age;
         this._clan_uuid = queryParams.clan_uuid;
         this._category = queryParams.category;
+        this._city = queryParams.city
         this._animal_type = queryParams.animal_type;
         this._for_adoption = queryParams.for_adoption;
         this._want_adoption = queryParams.want_adoption;
@@ -71,6 +74,9 @@ class GetPostRequest {
     }
     get age(): number | undefined {
         return this._age
+    }
+    get city(): string | undefined {
+        return this._city
     }
     get clan_uuid(): string | undefined {
         return this._clan_uuid

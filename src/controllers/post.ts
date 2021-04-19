@@ -20,6 +20,7 @@ class PostController {
             limit: '',
             data: [{}]
         }
+
         await PostService.index(new GetPostRequest(query))
             .then((result) => {
                 obj.totalPage = Math.ceil(result.total / +limitVal)

@@ -9,6 +9,7 @@ class GetPostSpecification implements ISpecification {
   protected _age?: number
   protected _clan_uuid?: string
   protected _category?: string
+  protected _city?: string
   protected _animal_type?: string
   protected _adoption?: boolean
   protected _sort_by: any;
@@ -26,6 +27,7 @@ class GetPostSpecification implements ISpecification {
     clan_uuid?: string
     category?: string
     animal_type?: string
+    city?: string
     adoption?: boolean
     sort?: string
     page?: number
@@ -39,6 +41,7 @@ class GetPostSpecification implements ISpecification {
     this._content = request.content;
     this._slug = request.slug;
     this._age = request.age;
+    this._city = request.city;
     this._clan_uuid = request.clan_uuid;
     this._category = request.category;
     this._animal_type = request.animal_type;
@@ -68,6 +71,9 @@ class GetPostSpecification implements ISpecification {
     }
     if (this._age) {
       specifications["age"] = this._age;
+    }
+    if (this._city) {
+      specifications["city_uuid"] = this._city
     }
     if (this._clan_uuid) {
       specifications["clan_uuid"] = this._clan_uuid;

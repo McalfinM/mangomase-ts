@@ -15,6 +15,7 @@ class PostRepository {
             slug: postEntity.getSlug,
             age: postEntity.getAge,
             category: postEntity.getCategory,
+            city_uuid: postEntity.getCityUuid,
             clan_uuid: postEntity.getClanUuid,
             animal_type: postEntity.getAnimalType,
             adoption: postEntity.getForAdoption,
@@ -58,6 +59,7 @@ class PostRepository {
             user: postEntity.user ?? null,
             category: postEntity.category ?? '',
             comment: postEntity.comment ?? [],
+            city_uuid: postEntity.city_uuid ?? null,
             age: postEntity?.age,
             image: postEntity?.image,
             adoption: postEntity.adoption ?? false,
@@ -73,7 +75,8 @@ class PostRepository {
                 slug: uuid,
                 $or: [{ deleted_at: null }, { deleted_at: undefined }],
             }
-        ).populate({ path: 'clan', select: ['uuid', 'name'], model: ClanCat })
+        ).populate('clan')
+            .populate({ path: 'user', select: ['name', 'province_uuid', 'city_uuid'], populate: [{ path: 'province' }, { path: 'city' }] })
 
         return postEntity ? new PostQueryEntity({
             uuid: postEntity.uuid ?? '',
@@ -87,6 +90,7 @@ class PostRepository {
             category: postEntity.category ?? '',
             age: postEntity?.age,
             comment: postEntity.comment ?? [],
+            city_uuid: postEntity.city_uuid ?? null,
             user: postEntity.user ?? null,
             image: postEntity?.image,
             adoption: postEntity.adoption ?? false,
@@ -118,6 +122,7 @@ class PostRepository {
                         adoption: data?.adoption ?? false,
                         user: data.user ?? null,
                         image: data?.image ?? 'animal.jpg',
+                        city_uuid: data.city_uuid ?? null,
                         comment: data?.comment ?? [],
                         created_at: data?.created_at ?? new Date,
                         updated_at: data?.updated_at ?? new Date,
@@ -168,6 +173,7 @@ class PostRepository {
                             category: data.category ?? '',
                             adoption: data?.adoption ?? false,
                             user: data?.user ?? null,
+                            city_uuid: data.city_uuid ?? null,
                             image: data?.image ?? 'animal.jpg',
                             comment: data?.comment ?? [],
                             created_at: data?.created_at ?? new Date,
