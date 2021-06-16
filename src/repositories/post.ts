@@ -16,8 +16,10 @@ class PostRepository {
             age: postEntity.getAge,
             category: postEntity.getCategory,
             city_uuid: postEntity.getCityUuid,
+            province_uuid: postEntity.getProvinceUuid,
             clan_uuid: postEntity.getClanUuid,
             animal_type: postEntity.getAnimalType,
+            cloudinary_id: postEntity.getCloudinaryId,
             adoption: postEntity.getForAdoption,
             image: postEntity.getImage,
             created_at: postEntity.getCreatedAt ?? new Date,
@@ -29,7 +31,7 @@ class PostRepository {
         return postEntity
     }
 
-    update = async (postEntity: PostEntity, user: { [k: string]: any }): Promise<PostEntity> => {
+    update = async (postEntity: PostEntity): Promise<PostEntity> => {
         return await Post.updateOne({ uuid: postEntity.getUuid },
             {
                 user_uuid: postEntity.getUserUuid,
@@ -40,7 +42,9 @@ class PostRepository {
                 clan_uuid: postEntity.getClanUuid,
                 animal_type: postEntity.getAnimalType,
                 adoption: postEntity.getForAdoption,
-
+                city_uuid: postEntity.getCityUuid,
+                cloudinary_id: postEntity.getCloudinaryId,
+                province_uuid: postEntity.getProvinceUuid,
                 image: postEntity.getImage,
                 updated_at: postEntity.getUpdatedAt ?? null,
             })
@@ -57,10 +61,12 @@ class PostRepository {
             clan_uuid: postEntity?.clan_uuid,
             animal_type: postEntity?.animal_type,
             user: postEntity.user ?? null,
+            province_uuid: postEntity.province_uuid ?? '',
             category: postEntity.category ?? '',
             comment: postEntity.comment ?? [],
             city_uuid: postEntity.city_uuid ?? null,
             age: postEntity?.age,
+            cloudinary_id: postEntity.cloudinary_id,
             image: postEntity?.image,
             adoption: postEntity.adoption ?? false,
             created_at: postEntity?.created_at,
@@ -76,7 +82,7 @@ class PostRepository {
                 $or: [{ deleted_at: null }, { deleted_at: undefined }],
             }
         ).populate('clan')
-            .populate({ path: 'user', select: ['name', 'province_uuid', 'city_uuid'], populate: [{ path: 'province' }, { path: 'city' }] })
+            .populate({ path: 'user', select: ['name', 'province_uuid', 'city_uuid', 'image'], populate: [{ path: 'province' }, { path: 'city' }] })
 
         return postEntity ? new PostQueryEntity({
             uuid: postEntity.uuid ?? '',
@@ -84,6 +90,7 @@ class PostRepository {
             title: postEntity.title ?? '',
             content: postEntity.content ?? '',
             slug: postEntity.slug ?? '',
+            province_uuid: postEntity.province_uuid ?? '',
             clan_uuid: postEntity?.clan_uuid,
             clan: postEntity?.clan ?? null,
             animal_type: postEntity?.animal_type,
@@ -100,7 +107,7 @@ class PostRepository {
     }
 
     async delete(uuid: string): Promise<object> {
-        return await Post.updateOne({ uuid: uuid }, { $set: { deleted_at: new Date } })
+        return await Post.updateOne({ uuid: uuid }, { deleted_at: new Date() })
     }
 
     async findByUserLogin(user: { [k: string]: any }): Promise<PostEntity[]> {
@@ -121,6 +128,7 @@ class PostRepository {
                         animal_type: data?.animal_type ?? '',
                         adoption: data?.adoption ?? false,
                         user: data.user ?? null,
+                        province_uuid: data.province_uuid ?? '',
                         image: data?.image ?? 'animal.jpg',
                         city_uuid: data.city_uuid ?? null,
                         comment: data?.comment ?? [],
@@ -135,6 +143,13 @@ class PostRepository {
             })
 
 
+    }
+
+    async updateManyCity(uuid: string, city_uuid: string): Promise<PostEntity[]> {
+        const post = await Post.updateMany({ user_uuid: uuid }, {
+            city_uuid: city_uuid
+        })
+        return post
     }
     async index(
         specification: specificationInterface
@@ -171,6 +186,7 @@ class PostRepository {
                             clan: data?.clan ?? null,
                             animal_type: data?.animal_type ?? '',
                             category: data.category ?? '',
+                            province_uuid: data.province_uuid ?? '',
                             adoption: data?.adoption ?? false,
                             user: data?.user ?? null,
                             city_uuid: data.city_uuid ?? null,

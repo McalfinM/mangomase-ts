@@ -70,6 +70,7 @@ class UserRepository {
             name: name,
             email: email,
             password: hashPassword,
+            image: 'https://res.cloudinary.com/werich1/image/upload/v1620365936/default_pet_fk1d0k.jpg',
             province_uuid: null,
             city_uuid: null,
             created_at: new Date
@@ -90,9 +91,7 @@ class UserRepository {
 
     updatePassword = async (data: UserEntity) => {
         const user = await User.updateOne({ uuid: data.uuid }, {
-            $set: {
-                password: data.password
-            }
+            password: data.password
         })
 
         return user
@@ -108,6 +107,39 @@ class UserRepository {
             image: user.image ?? '',
             city_uuid: user.city_uuid ?? '',
             province_uuid: user.province_uuid ?? '',
+            is_verified: user.is_verified ?? false,
+            is_deleted: user.is_deleted ?? false,
+            created_at: user.created_at ?? new Date,
+            deleted_at: user.deleted_at ?? new Date,
+
+        }) : null
+    }
+
+    async findForPassword(uuid: string): Promise<UserEntity | null> {
+        const user = await User.findOne({ uuid: uuid })
+
+        return user ? new UserEntity({
+            uuid: user.uuid ?? '',
+            city_uuid: user.city_uuid ?? '',
+            province_uuid: user.province_uuid ?? '',
+            password: user.password,
+            is_verified: user.is_verified ?? false,
+            is_deleted: user.is_deleted ?? false,
+            created_at: user.created_at ?? new Date,
+            deleted_at: user.deleted_at ?? new Date,
+
+        }) : null
+    }
+
+    async changeProfilePicture(uuid: string): Promise<UserEntity | null> {
+        const user = await User.findOne({ uuid: uuid })
+
+        return user ? new UserEntity({
+            uuid: user.uuid ?? '',
+            city_uuid: user.city_uuid ?? '',
+            province_uuid: user.province_uuid ?? '',
+            image: user.image,
+            cloudinary_id: user.cloudinary_id,
             is_verified: user.is_verified ?? false,
             is_deleted: user.is_deleted ?? false,
             created_at: user.created_at ?? new Date,

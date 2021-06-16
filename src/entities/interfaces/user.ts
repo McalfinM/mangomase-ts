@@ -11,6 +11,7 @@ export interface IUserEntity {
     province?: ProvinceEntity | null | undefined
     city_uuid: string | null
     city?: CityEntity | null | undefined
+    cloudinary_id?: string
     is_verified?: boolean
     is_deleted?: boolean
     created_at?: Date

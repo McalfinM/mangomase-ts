@@ -8,6 +8,7 @@ export interface IUser extends Document {
     image?: string
     province_uuid?: string
     city_uuid?: string
+    cloudinary_id?: string
     is_verified?: boolean
     is_deleted?: boolean
     created_at?: Date

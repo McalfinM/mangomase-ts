@@ -7,6 +7,9 @@ import AccessMenu from '../models/AccessMenu'
 import http from 'http'
 import HttpResponse from '../helpers/HttpResponse'
 import { HttpErrorHandler } from '../utils/errors'
+import UserEntity from '../entities/user'
+import UpdatePasswordUser from '../request/updatePasswordUser'
+import UpdateImageRequest from '../request/updateProfilePicture'
 
 class UserController {
 
@@ -70,6 +73,28 @@ class UserController {
                 return HttpErrorHandler(error, req, res)
             })
 
+    }
+
+    async updatePassword(req: Request, res: Response, next: NextFunction): Promise<UserEntity> {
+        const user = req.app.locals.credential
+        return await UserService.updatePassword(new UpdatePasswordUser(req.body), user)
+            .then(data => {
+                return HttpResponse.success(req, res, { success: true })
+            }).catch(error => {
+                return HttpErrorHandler(error, req, res)
+            })
+
+    }
+
+    async updateProfilePicture(req: Request, res: Response, next: NextFunction): Promise<any> {
+
+        const user = req.app.locals.credential
+        return await UserService.changeProfilePicture(new UpdateImageRequest(req.body), user)
+            .then(data => {
+                return HttpResponse.success(req, res, { success: true })
+            }).catch(error => {
+                return HttpErrorHandler(error, req, res)
+            })
     }
 
     delete = () => {

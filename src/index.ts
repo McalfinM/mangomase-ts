@@ -1,5 +1,4 @@
-import express, { Application } from 'express'
-import bodyParser, { urlencoded } from 'body-parser'
+import express, { Application, json, urlencoded } from 'express'
 import compression from 'compression'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -30,13 +29,10 @@ class App {
     }
 
     protected plugins() {
-        this.app.use(bodyParser.json())
+        this.app.use(json())
         this.app.use(compression())
-        this.app.use(urlencoded({ extended: false }))
+        this.app.use(urlencoded({ extended: true }))
         this.app.use(cors())
-        // this.app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
-        this.app.use(express.static(path.join(__dirname, '../')));
-        console.log(__dirname)
 
     }
 

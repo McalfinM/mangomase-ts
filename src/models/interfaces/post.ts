@@ -19,11 +19,13 @@ export interface IPost extends Document {
     age?: number | null
     category?: string | null;
     clan_uuid?: string | null
+    province_uuid?: string | null;
     animal_type?: string | null
     city_uuid?: string | null
     clan?: { [k: string]: any } | null
     adoption?: boolean | null
     user?: UserEntity | null
+    cloudinary_id?: string
     image?: string | null
     comment?: IComment[] | []
     deleted_at?: Date | null | undefined
