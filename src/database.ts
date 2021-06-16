@@ -8,7 +8,7 @@ import mongoose from 'mongoose'
 //     url = process.env.MONGO_URI
 // }
 // 'mongodb+srv://calfin08:codered2132@betulin.jvruk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-mongoose.connect('mongodb://localhost:27017/muezaa', {
+mongoose.connect('mongodb+srv://calfin08:codered2132@betulin.jvruk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(db => {
