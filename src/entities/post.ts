@@ -12,8 +12,10 @@ class PostEntity extends BaseEntity {
     protected clan_uuid?: string | null
     protected category?: string
     protected animal_type?: string | null
+    protected cloudinary_id?: string
     protected adoption?: boolean
     protected city_uuid?: string | null
+    protected province_uuid?: string | null
     protected image?: string | null
     protected comment?: IComment[] | []
     protected deleted_at?: Date | null
@@ -32,6 +34,8 @@ class PostEntity extends BaseEntity {
         this.clan_uuid = params.clan_uuid;
         this.city_uuid = params.city_uuid
         this.category = params.category;
+        this.cloudinary_id = params.cloudinary_id;
+        this.province_uuid = params.province_uuid
         this.animal_type = params.animal_type;
         this.adoption = params.adoption;
         this.image = params.image;
@@ -73,6 +77,14 @@ class PostEntity extends BaseEntity {
         this.title = title;
     }
 
+    get getCloudinaryId(): string | undefined {
+        return this.cloudinary_id
+    }
+
+    set setCloudinaryId(cloudinary_id: string | undefined) {
+        this.cloudinary_id = cloudinary_id
+    }
+
     get getCategory(): string | null | undefined {
         return this.category;
     }
@@ -95,6 +107,14 @@ class PostEntity extends BaseEntity {
 
     set setSlug(slug: string) {
         this.slug = slug;
+    }
+
+    get getProvinceUuid(): string | null | undefined {
+        return this.province_uuid;
+    }
+
+    set setProvinceUuid(province_uuid: string | null) {
+        this.province_uuid = province_uuid;
     }
 
     get getForAdoption(): boolean | null | undefined {

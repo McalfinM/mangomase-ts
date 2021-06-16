@@ -1,19 +1,13 @@
-import mongoose from 'mongoose'
+import { model, Schema, Model } from "mongoose";
+import { IRole } from './interfaces/Role'
 
-const RoleSchema = new mongoose.Schema(
+const RoleSchema: Schema = new Schema(
     {
-        uuid: {
-            type: String
-        },
-        name: {
-            type: String
-        }
-    },
-    {
-        timestamps: true
+        uuid: { type: String },
+        name: { type: String },
     }
-)
+);
 
-const Role = mongoose.model('Role', RoleSchema);
+const Role: Model<IRole> = model("room_chat", RoleSchema);
 
-export default Role
+export default Role;

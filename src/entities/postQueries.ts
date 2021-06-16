@@ -17,7 +17,9 @@ class PostQueryEntity extends BaseEntity {
     protected adoption?: boolean
     protected want_adoption?: boolean
     protected city_uuid?: string | null
+    protected province_uuid?: string | null
     protected image?: string | null
+    protected cloudinary_id?: string
     protected clan?: { [k: string]: any } | null
     protected comment?: IComment[] | []
     protected user?: UserEntity | null
@@ -37,8 +39,10 @@ class PostQueryEntity extends BaseEntity {
         this.age = params.age;
         this.clan = params.clan;
         this.clan_uuid = params.clan_uuid;
+        this.province_uuid = params.province_uuid
         this.city_uuid = params.city_uuid
         this.category = params.category;
+        this.cloudinary_id = params.cloudinary_id
         this.animal_type = params.animal_type;
         this.adoption = params.adoption;
         this.user = params.user;
@@ -119,6 +123,21 @@ class PostQueryEntity extends BaseEntity {
     }
     set setAdoption(adoption: boolean) {
         this.adoption = adoption
+    }
+
+    get getCloudinaryId(): string | undefined {
+        return this.cloudinary_id
+    }
+
+    set setCloudinaryId(cloudinary_id: string) {
+        this.cloudinary_id = cloudinary_id
+    }
+
+    get getProvinceUuid(): string | null | undefined {
+        return this.province_uuid
+    }
+    set setProvinceUuid(province_uuid: string | null) {
+        this.province_uuid = province_uuid
     }
 
     get getAge(): number | null | undefined {

@@ -8,6 +8,7 @@ class UpdatePostRequest {
     protected _clan_uuid: string;
     protected _adoption: boolean;
     protected _animal_type: string;
+    protected _cloudinary_id: string;
     protected _image: string;
 
     constructor(body: {
@@ -20,6 +21,7 @@ class UpdatePostRequest {
         clan_uuid: string
         animal_type: string
         adoption: boolean
+        cloudinary_id: string
         want_adoption: boolean
         image: string
     }) {
@@ -31,6 +33,7 @@ class UpdatePostRequest {
         this._category = body.category;
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
+        this._cloudinary_id = body.cloudinary_id;
         this._adoption = body.adoption;
         this._image = body.image;
     }
@@ -58,6 +61,9 @@ class UpdatePostRequest {
     }
     get adoption(): boolean | null {
         return this._adoption
+    }
+    get cloudinary_id(): string {
+        return this._cloudinary_id
     }
     get animal_type(): string | null {
         return this._animal_type

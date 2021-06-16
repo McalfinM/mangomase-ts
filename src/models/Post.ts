@@ -16,6 +16,8 @@ const PostSchema: Schema = new Schema(
         image: { type: String },
         comment: { type: Array },
         adoption: { type: Boolean },
+        cloudinary_id: { type: String },
+        province_uuid: { type: String },
         deleted_at: { type: Date },
         created_at: { type: Date },
         updated_at: { type: Date }

@@ -19,6 +19,7 @@ const UserSchema: Schema = new Schema(
         image: { type: String },
         province_uuid: { type: String },
         city_uuid: { type: String },
+        cloudinary_id: { type: String },
         is_deleted: {
             type: Boolean, default: false
         },

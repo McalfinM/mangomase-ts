@@ -12,6 +12,7 @@ class UserEntity extends BaseEntity {
     protected _province_uuid: string | null
     protected _city_uuid: string | null
     protected _city?: CityEntity | null | undefined
+    protected _cloudinary_id?: string
     protected _password?: string
     protected _is_verified?: boolean
     protected _is_deleted?: boolean
@@ -28,6 +29,7 @@ class UserEntity extends BaseEntity {
         this._province_uuid = params.province_uuid
         this._province = params.province
         this._city_uuid = params.city_uuid
+        this._cloudinary_id = params.cloudinary_id
         this._city = params.city
         this._is_verified = params.is_verified
         this._is_deleted = params.is_deleted
@@ -67,6 +69,11 @@ class UserEntity extends BaseEntity {
     get city(): CityEntity | null | undefined {
         return this._city
     }
+
+    get cloudinary_id(): string | undefined {
+        return this._cloudinary_id
+    }
+
     get is_verified(): boolean | undefined {
         return this._is_verified
     }

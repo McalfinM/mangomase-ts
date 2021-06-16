@@ -29,6 +29,8 @@ export interface IPostEntity {
     category?: string;
     clan_uuid?: string | null;
     clan?: { [k: string]: any } | null
+    province_uuid?: string | null
+    cloudinary_id?: string
     animal_type?: string | null;
     city_uuid?: string | null
     image?: string | null;

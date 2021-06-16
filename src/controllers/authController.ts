@@ -28,15 +28,15 @@ class authController {
         }
 
         const compare = await Authentication.passwordCompare(password, data.password)
+
         if (compare) {
             const token = await Authentication.generateToken(data.name, email, data.uuid);
             data.password = undefined;
             // data._id = undefined;
-
             return res.status(200).json({
                 token_type: 'Bearer',
                 access_token: token,
-                user: data
+                user: data.uuid
             })
         }
 

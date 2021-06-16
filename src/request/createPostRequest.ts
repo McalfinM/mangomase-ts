@@ -15,6 +15,7 @@ class CreatePostRequest {
     protected _adoption: boolean;
     protected _comment?: IComment[] | []
     protected _animal_type: string;
+    protected _cloudinary_id: string
     protected _image: string;
 
     constructor(body: {
@@ -28,6 +29,7 @@ class CreatePostRequest {
         animal_type: string
         adoption: boolean
         comment: []
+        cloudinary_id: string
         want_adoption: boolean
         image: string
     }) {
@@ -39,6 +41,7 @@ class CreatePostRequest {
         this._category = body.category
         this._clan_uuid = body.clan_uuid;
         this._animal_type = body.animal_type;
+        this._cloudinary_id = body.cloudinary_id;
         this._comment = body.comment
         this._adoption = body.adoption;
         this._image = body.image;
@@ -75,6 +78,9 @@ class CreatePostRequest {
     }
     get animal_type(): string | null {
         return this._animal_type
+    }
+    get cloudinary_id(): string {
+        return this._cloudinary_id
     }
     get image(): string | null {
         return this._image
