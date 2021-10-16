@@ -1,19 +1,10 @@
-import { Request, Response, NextFunction } from 'express'
-import { check, validationResult } from 'express-validator'
+import { body, ValidationChain } from "express-validator"
 
-const validator = [
-    check('name').isString(),
-    check('email').isString().isEmail(),
-    check('password').isString().isLength({ min: 4 }),
-    (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            return res.status(422).json({
-                errors: errors.array()
-            })
-        }
-        return next()
-    }
-]
-
-export default validator;
+export const registerValidator = (): ValidationChain[] => {
+    return [
+        body('username', 'Masukan username anda').exists(),
+        body('name', 'Masukan nama kamu').exists(),
+        body('email', 'Masukan email kamu').exists().isEmail(),
+        body('password', 'Masukan password kamu').exists().isLength({ min: 6 })
+    ]
+}

@@ -5,12 +5,6 @@ import cors from 'cors'
 import './database'
 import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
-import postRoutes from './routes/post'
-import commentRoutes from './routes/comment'
-import partnerRoutes from './routes/partner'
-import provinceRoutes from './routes/province'
-import cityRoutes from './routes/city'
-import clanRoutes from './routes/clan'
 import err from './middleware/errorMiddleware'
 import multer from 'multer'
 import { BadRequest } from '@tsed/exceptions'
@@ -44,16 +38,11 @@ class App {
     protected routes(): void {
         this.app.use('/api/v1/auth', authRoutes)
         this.app.use('/api/v1/users', userRoutes)
-        this.app.use('/api/v1/posts', postRoutes)
-        this.app.use('/api/v1/comments', commentRoutes)
-        this.app.use('/api/v1/partners', partnerRoutes)
-        this.app.use('/api/v1/provinces', provinceRoutes)
-        this.app.use('/api/v1/cities', cityRoutes)
-        this.app.use('/api/v1/clans', clanRoutes)
     }
 
 }
-const port = process.env.PORT || 3008
+const port = process.env.PORT || 3000
 const app = new App().app
 
-app.listen(process.env.PORT || 3005);
+app.listen(process.env.PORT || 3000);
+console.log(port)

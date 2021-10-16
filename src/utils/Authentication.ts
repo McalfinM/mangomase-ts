@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken'
 
 class Authentication {
 
-    public static hash = (password:string) : Promise<string> => {
-        return bcrypt.hash(password,12)
+    public static hash = (password: string): Promise<string> => {
+        return bcrypt.hash(password, 12)
     }
 
     public static passwordCompare = async (text: string, encrypt: string): Promise<boolean> => {
@@ -12,9 +12,9 @@ class Authentication {
         return result
     }
 
-    public static generateToken = async (username: string, email: string, uuid: string): Promise<string> => {
+    public static generateToken = async (name: string, username: string, uuid: string): Promise<string> => {
         const secretKey: string = process.env.JWT_SECRET || 'secret'
-        const token: string = jwt.sign({ username, email, uuid }, secretKey)
+        const token: string = jwt.sign({ name, username, uuid }, secretKey)
 
         return token
     }

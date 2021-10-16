@@ -1,96 +1,82 @@
 import BaseEntity from "./baseEntity";
-import CityEntity from "./cityEntity";
 import { IUserEntity } from './interfaces/user'
-import ProvinceEntity from "./province";
-
 class UserEntity extends BaseEntity {
-    protected _uuid?: string
-    protected _email?: string
-    protected _name?: string | null
-    protected _image?: string | null
-    protected _province?: ProvinceEntity | null | undefined
-    protected _province_uuid: string | null
-    protected _city_uuid: string | null
-    protected _city?: CityEntity | null | undefined
-    protected _cloudinary_id?: string
-    protected _password?: string
-    protected _is_verified?: boolean
-    protected _is_deleted?: boolean
-    protected _created_at?: Date
-    protected _deleted_at?: Date
+    protected _uuid: string
+    protected _email: string
+    protected _name: string
+    protected _username: string
+    protected _password: string
+    protected _created_at: Date | null
+    protected _updated_at: Date | null
 
     constructor(params: IUserEntity) {
         super();
         this._uuid = params.uuid
         this._email = params.email
         this._name = params.name
+        this._username = params.username
         this._password = params.password
-        this._image = params.image
-        this._province_uuid = params.province_uuid
-        this._province = params.province
-        this._city_uuid = params.city_uuid
-        this._cloudinary_id = params.cloudinary_id
-        this._city = params.city
-        this._is_verified = params.is_verified
-        this._is_deleted = params.is_deleted
         this._created_at = params.created_at
-        this._deleted_at = params.deleted_at
+        this._updated_at = params.updated_at
     }
 
-    get uuid(): string | undefined {
+    get uuid(): string {
         return this._uuid
     }
 
+    set uuid(uuid: string) {
+        this._uuid = uuid
+    }
 
-    get email(): string | undefined {
+
+    get email(): string {
         return this._email
     }
 
-    get name(): string | null | undefined {
+    set email(email: string) {
+        this._email = email
+    }
+
+    get name(): string {
         return this._name
     }
 
-    get password(): string | undefined {
+    set name(name: string) {
+        this._name = name
+    }
+
+    get username(): string {
+        return this._username
+    }
+
+    set username(username: string) {
+        this._username = username
+    }
+
+    get password(): string {
         return this._password
     }
 
-    get image(): string | null | undefined {
-        return this._image
-    }
-    get province_uuid(): string | null {
-        return this._province_uuid
-    }
-    get province(): ProvinceEntity | null | undefined {
-        return this._province
-    }
-    get city_uuid(): string | null {
-        return this._city_uuid
-    }
-    get city(): CityEntity | null | undefined {
-        return this._city
-    }
-
-    get cloudinary_id(): string | undefined {
-        return this._cloudinary_id
-    }
-
-    get is_verified(): boolean | undefined {
-        return this._is_verified
+    set password(password: string) {
+        this._password = password
     }
 
 
-    get is_deleted(): boolean | undefined {
-        return this._is_deleted
-    }
-
-    get created_at(): Date | undefined {
+    get created_at(): Date | null {
         return this._created_at
     }
 
-    get deleted_at(): Date | undefined {
-        return this._deleted_at
+    set created_at(created_at: Date | null) {
+        this._created_at = created_at
     }
 
+    get updated_at(): Date | null {
+        return this._updated_at
+    }
+
+    set updated_at(updated_at: Date | null) {
+        this._updated_at = updated_at
+    }
 
 }
 

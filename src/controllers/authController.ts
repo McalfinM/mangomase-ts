@@ -1,15 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import Authentication from '../utils/Authentication'
 import User from '../models/User'
-import AuthService from '../services/authService'
+import UserService from '../services/user'
+import RegisterUserRequest from '../request/registerUserRequest'
 
 class authController {
 
     register = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { name, email, password } = req.body
-            const data = await AuthService.register(name, email, password)
-            return res.status(201).json(data)
+
+            const data = await UserService.create(new RegisterUserRequest(req.body))
+            return res.status(201).json({ success: true })
         } catch (error) {
             next(error)
         }
@@ -17,20 +18,20 @@ class authController {
     }
 
     login = async (req: Request, res: Response): Promise<Response> => {
-        const { email, password } = req.body
-        const data: any = await User.findOne({ email: email }).select('-_id -__v')
+        const { username, password } = req.body
+        const data: any = await User.findOne({ username: username })
 
         if (!data) {
             return res.status(404).json({
                 success: false,
-                message: 'Email not found'
+                message: 'Data not found'
             })
         }
 
         const compare = await Authentication.passwordCompare(password, data.password)
 
         if (compare) {
-            const token = await Authentication.generateToken(data.name, email, data.uuid);
+            const token = await Authentication.generateToken(data.name, username, data.uuid);
             data.password = undefined;
             // data._id = undefined;
             return res.status(200).json({
