@@ -4,7 +4,6 @@ import { IEmbed, IMenuEntity } from "./interfaces/menu";
 
 class MenuEntity extends BaseEntity {
     protected _uuid: string
-    protected _created_by: IEmbed
     protected _name: string
     protected _slug: string
     protected _description: string
@@ -18,7 +17,6 @@ class MenuEntity extends BaseEntity {
     constructor(params: IMenuEntity) {
         super();
         this._uuid = params.uuid
-        this._created_by = params.created_by
         this._name = params.name
         this._slug = params.slug
         this._description = params.description
@@ -36,12 +34,6 @@ class MenuEntity extends BaseEntity {
     }
     set uuid(uuid: string) {
         this._uuid = uuid
-    }
-    get created_by(): IEmbed {
-        return this._created_by
-    }
-    set created_by(created_by: IEmbed) {
-        this._created_by = created_by
     }
     get name(): string {
         return this._name
@@ -108,7 +100,6 @@ class MenuEntity extends BaseEntity {
     toJson(): object {
         return {
             uuid: this.uuid,
-            created_by: this.created_by,
             name: this.name,
             slug: this.slug,
             description: this.description,
@@ -124,7 +115,6 @@ class MenuEntity extends BaseEntity {
     toListData(): {} {
         return {
             uuid: this.uuid,
-            created_by: this.created_by,
             name: this.name,
             slug: this.slug,
             price: this.price,
@@ -135,7 +125,6 @@ class MenuEntity extends BaseEntity {
     toDetailData(): {} {
         return {
             uuid: this.uuid,
-            created_by: this.created_by,
             name: this.name,
             description: this.description,
             price: this.price,

@@ -6,7 +6,6 @@ export interface IEmbed {
 
 export interface IMenuEntity {
     uuid: string
-    created_by: IEmbed
     name: string
     slug: string
     description: string

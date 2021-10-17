@@ -5,8 +5,8 @@ import cors from 'cors'
 import './database'
 import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
+import menuRoutes from './routes/menu'
 import err from './middleware/errorMiddleware'
-import multer from 'multer'
 import { BadRequest } from '@tsed/exceptions'
 // import { v4 as uuidv4 } from 'uuid'
 import path from 'path'
@@ -38,6 +38,7 @@ class App {
     protected routes(): void {
         this.app.use('/api/v1/auth', authRoutes)
         this.app.use('/api/v1/users', userRoutes)
+        this.app.use('/api/v1/menus', menuRoutes)
     }
 
 }
