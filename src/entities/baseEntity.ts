@@ -1,9 +1,12 @@
 import { TypedSerializer } from "ts-typed";
 
+
+type ExcludeMethods<T> = Pick<T, { [K in keyof T]: T[K] extends (_: any) => any ? never : K }[keyof T]>;
+
 abstract class BaseEntity {
   constructor() { }
 
-  toJSON(): object {
+  toJSON(): ExcludeMethods<this> {
     let _this: any = this
     Object.keys(this).forEach(key => {
       if (typeof _this[key] === 'object' && _this[key] && _this[key].toJSON) {

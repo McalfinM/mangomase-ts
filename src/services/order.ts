@@ -8,55 +8,55 @@ import MenuService from "./menus";
 import OrderEntity from "../entities/order";
 import { ErrorNotFound } from "../utils/errors";
 import { IOrderMenuEntity } from "../entities/interfaces/order";
+import GetOrderRequest from "../request/getOrderRequest";
+import GetOrderSpefication from "../repositories/specifications/getOrderSpecification";
 
 class OrderService {
 
-    private readonly orderService = new OrderRepository()
+    private readonly orderRepository = new OrderRepository()
 
-    async createOrUpdate(data: CreateCartRequest, user: IUser): Promise<{ success: true }> {
-        const searchCart = await this.orderService.findOneMyCart(data.uuid)
+    async create(data: CreateCartRequest): Promise<{ uuid: string }> {
+        let entityCart = new OrderEntity({
+            uuid: uuidV4(),
+            name: data.name,
+            menus: [],
+            quantity: 0,
+            updated_at: new Date(),
+            created_at: new Date(),
+            order_id: 'MM' + new Date().getTime()
+        })
+
+        await this.orderRepository.create(entityCart);
+        return {
+            uuid: entityCart.uuid
+        }
+    }
+
+    async createOrUpdate(uuid: string, menu_uuid: string, user: IUser): Promise<{ success: true }> {
+        const searchCart = await this.orderRepository.findOneMyCart(uuid)
         let menus: IOrderMenuEntity[] = []
 
         if (!searchCart) {
-            const searchProduct = await MenuService.findOne(data.menu_uuid)
-            if (!searchProduct) throw new ErrorNotFound('Product not found', '@Service create or update cart')
-            menus.push({
-                uuid: uuidV4(),
-                name: searchProduct.name,
-                image: searchProduct.image,
-                price: searchProduct.price,
-                quantity: 1,
-                menu_uuid: searchProduct.uuid
-            })
-
-            let entityCart = new OrderEntity({
-                uuid: uuidV4(),
-                menus: menus,
-                quantity: menus.length,
-                updated_at: new Date(),
-                created_at: new Date(),
-                created_by: {},
-                order_id: 'MM' + new Date().getTime()
-            })
-            await this.orderService.create(entityCart);
+            throw new ErrorNotFound('Keranjang tidak ditemukan', '@Service Order => Create Or Update')
         } else {
-            const searchProduct = await MenuService.findOne(data.menu_uuid)
+            const searchProduct = await MenuService.findOne(menu_uuid)
             if (!searchProduct) throw new ErrorNotFound('Product not found', '@Service create or update cart')
             for (let i = 0; i < searchCart.menus.length; i++) {
 
-                if (searchCart.menus[i].uuid === data.uuid) {
+                if (searchCart.menus[i].uuid === menu_uuid) {
 
-                    await this.orderService.delete(searchCart.menus[i].uuid ?? '', user.uuid)
+                    await this.orderRepository.delete(searchCart.uuid ?? '', menu_uuid)
                     searchCart.menus[i].quantity += 1
-                    searchCart.quantity = searchCart.menus[i].quantity
 
-                    return await this.orderService.update(searchCart);
+                    const quantity = searchCart.quantity = searchCart.menus.reduce(((prev, curr) => Number(prev) + Number(curr.quantity)), 0)
+                    return await this.orderRepository.update(searchCart);
 
                 }
             }
+            const quantity = searchCart.quantity = searchCart.menus.reduce(((prev, curr) => Number(prev) + Number(curr.quantity)), 0)
 
             menus.push({
-                uuid: uuidV4(),
+                uuid: searchProduct.uuid,
                 name: searchProduct?.name ?? '',
                 image: searchProduct?.image ?? '',
                 price: searchProduct?.price ?? 0,
@@ -68,13 +68,13 @@ class OrderService {
             let entityCart = new OrderEntity({
                 uuid: searchCart.uuid,
                 menus: concat,
-                quantity: menus.length,
+                name: searchCart.name,
+                quantity: quantity,
                 updated_at: new Date(),
                 created_at: new Date(),
-                created_by: searchCart.created_by,
                 order_id: searchCart.order_id
             })
-            await this.orderService.update(entityCart);
+            await this.orderRepository.update(entityCart);
 
         }
 
@@ -82,75 +82,85 @@ class OrderService {
         return { success: true };
     }
 
-    async delete(uuid: string, user_uuid: string): Promise<{ success: true }> {
-        const deleteProduct = await this.orderService.delete(uuid, user_uuid)
+    async delete(uuid: string, menu_uuid: string): Promise<{ success: true }> {
+        const deleteProduct = await this.orderRepository.delete(uuid, menu_uuid)
         if (!deleteProduct) throw new ErrorNotFound('Data not found', '@Service Cart Delete')
-        const searchMyCart = await this.orderService.findOneMyCart(user_uuid)
-        if (!searchMyCart) throw new ErrorNotFound('data not found', '@Service Delete Cart')
-        const searchCart = await this.orderService.update(searchMyCart)
+        const order = await this.findOne(uuid)
+        if (!order) throw new ErrorNotFound('Order tidak ditemukan', '@Service order delete')
+        order.quantity = order.menus.reduce((prev, curr) => Number(prev) + Number(curr.quantity), 0)
+        this.orderRepository.update(order)
         return { success: true }
     }
 
-    async minusQuantity(uuid: string, user_uuid: string): Promise<{ success: true }> {
-        const searchCart = await this.orderService.findOneMyCart(user_uuid)
+    async minusQuantity(uuid: string, menu_uuid: string): Promise<{ success: true }> {
+        const searchCart = await this.orderRepository.findOneMyCart(uuid)
         if (!searchCart) throw new ErrorNotFound('You did\'t have a cart', '@Service Minus Quantity Cart')
         let product: IOrderMenuEntity[] = []
 
-        const searchProduct = await MenuService.findOne(uuid)
+        const searchProduct = await MenuService.findOne(menu_uuid)
         if (!searchProduct) throw new ErrorNotFound('Product not found', '@Service create or update cart')
         for (let i = 0; i < searchCart.menus.length; i++) {
 
-            if (searchCart.menus[i].menu_uuid === uuid) {
+            if (searchCart.menus[i].menu_uuid === menu_uuid) {
 
-                await this.orderService.delete(searchCart.menus[i].uuid ?? '', user_uuid)
+                await this.orderRepository.delete(searchCart.menus[i].uuid ?? '', menu_uuid)
                 searchCart.menus[i].quantity -= 1
-                searchCart.quantity = searchCart.menus[i].quantity
+                const quantity = searchCart.quantity = searchCart.menus.reduce(((prev, curr) => Number(prev) + Number(curr.quantity)), 0)
 
-                return await this.orderService.update(searchCart);
+                return await this.orderRepository.update(searchCart);
 
             }
         }
+        // const quantity = searchCart.quantity = searchCart.menus.reduce(((prev, curr) => Number(prev) + Number(curr.quantity)), 0)
+        // product.push({
+        //     uuid: searchProduct.uuid,
+        //     name: searchProduct?.name ?? '',
+        //     image: searchProduct?.image ?? '',
+        //     price: searchProduct?.price ?? 0,
+        //     menu_uuid: searchProduct?.uuid ?? '',
+        //     quantity: 1
+        // })
+        // let concat = searchCart.menus.concat(product)
 
-        product.push({
-            uuid: uuidV4(),
-            name: searchProduct?.name ?? '',
-            image: searchProduct?.image ?? '',
-            price: searchProduct?.price ?? 0,
-            menu_uuid: searchProduct?.uuid ?? '',
-            quantity: 1
-        })
-        let concat = searchCart.menus.concat(product)
+        // let entityCart = new OrderEntity({
+        //     uuid: searchCart.uuid,
+        //     menus: concat,
+        //     name: searchCart.name,
+        //     quantity: quantity,
+        //     updated_at: new Date(),
+        //     created_at: new Date(),
+        //     order_id: searchCart.order_id
+        // })
 
-        let entityCart = new OrderEntity({
-            uuid: searchCart.uuid,
-            created_by: {},
-            menus: concat,
-            quantity: product.length,
-            updated_at: new Date(),
-            created_at: new Date(),
-            order_id: searchCart.order_id
-        })
-        await this.orderService.update(entityCart);
+        // await this.orderRepository.update(entityCart);
 
         return { success: true }
     }
 
-    async findOne(uuid: string, user_uuid: string): Promise<OrderEntity | null> {
-        const result = await this.orderService.findOne(uuid)
+    async findOne(uuid: string): Promise<OrderEntity | null> {
+        const result = await this.orderRepository.findOne(uuid)
 
         return result ? new OrderEntity(result) : null
     }
 
 
-    async findAll(user_uuid: string): Promise<OrderEntity | null> {
-        return await this.orderService.findAll(user_uuid)
+    async findAll(
+        data: GetOrderRequest
+    ): Promise<{
+        total: number;
+        data: OrderEntity[];
+    }> {
+        const order = await this.orderRepository.findAll(
+            new GetOrderSpefication(data)
+        )
+        return order
     }
 
     async findOneMyCart(user_uuid: string): Promise<OrderEntity | null> {
-        const cart = await this.orderService.findOneMyCart(user_uuid)
+        const cart = await this.orderRepository.findOneMyCart(user_uuid)
         return cart ? new OrderEntity(cart) : null
     }
 
 }
 
-export default OrderService
+export default new OrderService()

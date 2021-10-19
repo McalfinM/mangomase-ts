@@ -9,15 +9,7 @@ class OrderRepository {
 
     async create(data: OrderEntity): Promise<{ success: true }> {
 
-        await OrderModel.create({
-            uuid: data.uuid,
-            quantity: data.quantity,
-            menus: data.menus,
-            order_id: data.order_id,
-            created_by: data.created_by,
-            created_at: data.created_at,
-            updated_at: data.updated_at,
-        })
+        await OrderModel.create(data.toJSON())
 
         return { success: true }
     }
@@ -40,10 +32,10 @@ class OrderRepository {
         return result ? new OrderEntity(result) : null
     }
 
-    async delete(uuid: string, user_uuid: string): Promise<{ success: true }> {
+    async delete(uuid: string, menu_uuid: string): Promise<{ success: true }> {
 
-        const deleteCart = await OrderModel.updateOne({ "created_by.uuid": user_uuid, "menus.uuid": uuid },
-            { $pull: { menus: { uuid: uuid } } },
+        const deleteCart = await OrderModel.updateOne({ uuid: uuid },
+            { $pull: { menus: { menu_uuid: menu_uuid } } },
             {
                 upsert: false,
                 multi: true
@@ -63,12 +55,38 @@ class OrderRepository {
     }
 
 
-    async findAll(user_uuid: string): Promise<OrderEntity | null> {
-        const cart = await OrderModel.findOne({ "created_by.uuid": user_uuid })
+    async findAll(
+        specification: specificationInterface
+    ): Promise<{
+        total: number;
+        data: OrderEntity[];
+    }> {
+        const total_customer = await OrderModel.find({
 
-        return cart ? new OrderEntity(cart) : null
+            ...specification.specifies(),
+        }).countDocuments();
+        return OrderModel.find(
+            {
+                ...specification.specifies(),
+            },
+            {},
+            {
+                ...specification.paginate(),
+                sort: specification.specSort(),
+            }
+        )
+            .then((result) => {
+                return {
+                    total: total_customer,
+                    data: result.map((data) => {
+                        return new OrderEntity(data.toJSON());
+                    }),
+                };
+            })
+            .catch((err) => {
+                return err;
+            });
     }
-
 
 }
 

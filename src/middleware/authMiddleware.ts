@@ -13,7 +13,7 @@ export const auth = (req: Request, res: Response, next: NextFunction): any => {
     try {
         const credential: any = jwt.verify(token, secretKey)
         if (credential) {
-            req.app.locals.credential = credential
+            req.user = credential
             return next()
         }
         return res.status(400).json('Token invalid')

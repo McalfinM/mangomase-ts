@@ -1,17 +1,9 @@
 import ISpecification from "./specificationInterface";
 
-class GetPostSpecification implements ISpecification {
+class GetMenuSpecification implements ISpecification {
   protected _uuid?: string
-  protected _user_uuid?: string
-  protected _title?: string
-  protected _content?: string
-  protected _slug?: string
-  protected _age?: number
-  protected _clan_uuid?: string
+  protected _name?: string
   protected _category?: string
-  protected _city?: string
-  protected _animal_type?: string
-  protected _adoption?: boolean
   protected _sort_by: any;
   protected _page: number;
   protected _limit: number;
@@ -19,33 +11,17 @@ class GetPostSpecification implements ISpecification {
 
   constructor(request: {
     uuid?: string
-    user_uuid?: string
-    title?: string
-    content?: string
-    slug?: string
-    age?: number
-    clan_uuid?: string
+    name?: string
     category?: string
-    animal_type?: string
-    city?: string
-    adoption?: boolean
     sort?: string
     page?: number
     limit?: number
     search?: string
   }) {
     this._search = request.search;
+    this._name = request.name;
+    this._category = request.category
     this._uuid = request.uuid;
-    this._user_uuid = request.user_uuid;
-    this._title = request.title;
-    this._content = request.content;
-    this._slug = request.slug;
-    this._age = request.age;
-    this._city = request.city;
-    this._clan_uuid = request.clan_uuid;
-    this._category = request.category;
-    this._animal_type = request.animal_type;
-    this._adoption = request.adoption;
     this._sort_by = request.sort ?? '-created_at'
     this._page = request.page ?? 1
     this._limit = request.limit ?? 30
@@ -59,7 +35,7 @@ class GetPostSpecification implements ISpecification {
     if (this._search) {
 
       or_specifications.push(
-        { 'title': new RegExp(this._search, 'i') }
+        { 'name': new RegExp(this._search, 'i') },
       )
     }
 
@@ -67,18 +43,8 @@ class GetPostSpecification implements ISpecification {
       specifications["uuid"] = this._uuid;
     }
     if (this._category) {
-      specifications["category"] = this._category;
+      specifications["category.name"] = this._category;
     }
-    if (this._age) {
-      specifications["age"] = this._age;
-    }
-    if (this._city) {
-      specifications["city_uuid"] = this._city
-    }
-    if (this._clan_uuid) {
-      specifications["clan_uuid"] = this._clan_uuid;
-    }
-
     if (or_specifications.length > 0) {
       specifications["$or"] = or_specifications;
     }
@@ -117,4 +83,4 @@ class GetPostSpecification implements ISpecification {
 }
 
 
-export default GetPostSpecification;
+export default GetMenuSpecification;

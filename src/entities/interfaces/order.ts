@@ -2,8 +2,8 @@ import { IEmbed, IMenuEntity } from "./menu";
 
 export interface IOrderEntity {
     uuid: string
+    name: string
     order_id: string
-    created_by: IEmbed
     quantity: number
     menus: IOrderMenuEntity[]
     created_at: Date | null

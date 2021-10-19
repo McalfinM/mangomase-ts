@@ -7,7 +7,10 @@ class CategoryRepository {
 
 
     async create(data: CategoryEntity): Promise<void> {
-        await CategoryModel.create(data)
+        await CategoryModel.create({
+            uuid: data.uuid,
+            name: data.name
+        })
 
     }
 

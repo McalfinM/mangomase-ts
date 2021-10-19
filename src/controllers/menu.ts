@@ -39,37 +39,37 @@ class MenuController {
             .then((result) => HttpResponse.success(req, res, result?.toDetailData()))
             .catch((err) => HttpErrorHandler(err, req, res));
     }
-    // findAll(req: Request, res: Response): Response | Promise<Response> {
-    //     const { query } = req;
-    //     const { page, limit, sort, ...rest } = req.query;
-    //     const pageVal: string = page?.toString() ?? "1";
-    //     const limitVal: string = limit?.toString() ?? "30";
+    findAll(req: Request, res: Response): Response | Promise<Response> {
+        const { query } = req;
+        const { page, limit, sort, ...rest } = req.query;
+        const pageVal: string = page?.toString() ?? "1";
+        const limitVal: string = limit?.toString() ?? "30";
 
-    //     let obj = {
-    //         totalPage: 0,
-    //         totalData: 0,
-    //         currentPage: '',
-    //         limit: '',
-    //         data: [{}]
-    //     }
+        let obj = {
+            totalPage: 0,
+            totalData: 0,
+            currentPage: '',
+            limit: '',
+            data: [{}]
+        }
 
-    //     return MenuService.findAll(new GetMenuRequest(query))
-    //         .then((result) => {
-    //             obj.totalPage = Math.ceil(result.total / +limitVal)
-    //             obj.totalData = result.total || 0
-    //             obj.currentPage = pageVal
-    //             obj.limit = limitVal
-    //             // res.setHeader("X-Pagination-Total-Page", Math.ceil(result.total / +limitVal));
-    //             // res.setHeader("X-Pagination-Total-Data", result.total || 0);
-    //             // res.setHeader("X-Pagination-Current-Page", pageVal);
-    //             // res.setHeader("X-Pagination-Limit", limitVal);
-    //             obj.data = result.data.map((data) => data.toListData());
+        return MenuService.findAll(new GetMenuRequest(query))
+            .then((result) => {
+                obj.totalPage = Math.ceil(result.total / +limitVal)
+                obj.totalData = result.total || 0
+                obj.currentPage = pageVal
+                obj.limit = limitVal
+                // res.setHeader("X-Pagination-Total-Page", Math.ceil(result.total / +limitVal));
+                // res.setHeader("X-Pagination-Total-Data", result.total || 0);
+                // res.setHeader("X-Pagination-Current-Page", pageVal);
+                // res.setHeader("X-Pagination-Limit", limitVal);
+                obj.data = result.data.map((data) => data.toListData());
 
-    //             return HttpResponse.success(req, res, obj);
-    //         })
+                return HttpResponse.success(req, res, obj);
+            })
 
-    //         .catch(err => HttpErrorHandler(err, req, res))
-    // }
+            .catch(err => HttpErrorHandler(err, req, res))
+    }
 
     delete(req: Request, res: Response): Response | Promise<Response> {
         const { params: { uuid } } = req;

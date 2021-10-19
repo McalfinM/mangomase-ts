@@ -6,7 +6,7 @@ const OrderSchema: Schema = new Schema(
         uuid: { type: String },
         created_by: { type: Object },
         quantity: { type: Number },
-        product: { type: Array },
+        menus: { type: Array },
         created_at: { type: Date },
         updated_at: { type: Date },
         deleted_at: { type: Date },

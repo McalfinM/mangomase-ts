@@ -13,6 +13,7 @@ export const cloud = async (data: any): Promise<{ secure_url: string, cloudinary
     }
     const upload = await cloudinary.v2.uploader.upload(data, { folder: 'mangomase' })
         .then(result => {
+            console.log('success upload')
             payload.secure_url = result.secure_url
             payload.cloudinary_id = result.public_id.replace('mangomase/', "")
         }).catch(err => {

@@ -4,10 +4,22 @@ import MenuModel from "../models/menu";
 import specificationInterface from "./specifications/specificationInterface";
 
 class MenuRepository {
-    async create(data: MenuEntity): Promise<{ success: true }> {
-        const result = await MenuModel.create(data)
+    async create(data: MenuEntity): Promise<MenuEntity> {
+        const result = await MenuModel.create({
+            uuid: data.uuid,
+            category: data.category,
+            cloudinary_id: data.cloudinary_id,
+            description: data.description,
+            name: data.name,
+            image: data.image,
+            price: data.price,
+            slug: data.slug,
+            created_at: data.created_at,
+            updated_at: data.updated_at,
+            deleted_at: data.deleted_at
+        })
 
-        return { success: true }
+        return new MenuEntity(result)
     }
     async update(data: MenuEntity): Promise<{ success: true }> {
         const result = await MenuModel.updateOne({ uuid: data.uuid }, {

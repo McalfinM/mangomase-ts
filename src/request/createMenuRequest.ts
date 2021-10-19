@@ -5,13 +5,13 @@ class CreateMenuRequest {
     protected _description: string
     protected _category_uuid: string
     constructor(body: {
-        comment: string
+        name: string
         price: number
         image: string
         description: string
         category_uuid: string
     }) {
-        this._name = body.comment;
+        this._name = body.name;
         this._price = body.price;
         this._image = body.image
         this._description = body.description

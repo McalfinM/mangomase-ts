@@ -6,7 +6,7 @@ import { IOrderEntity, IOrderMenuEntity } from "./interfaces/order";
 class OrderEntity extends BaseEntity {
 
     protected _uuid: string
-    protected _created_by: IEmbed
+    protected _name: string
     protected _order_id: string
     protected _quantity: number
     protected _menus: IOrderMenuEntity[]
@@ -17,8 +17,8 @@ class OrderEntity extends BaseEntity {
     constructor(params: IOrderEntity) {
         super();
         this._uuid = params.uuid
+        this._name = params.name
         this._order_id = params.order_id
-        this._created_by = params.created_by
         this._quantity = params.quantity
         this._menus = params.menus
         this._quantity = params.quantity
@@ -32,17 +32,17 @@ class OrderEntity extends BaseEntity {
     set uuid(uuid: string) {
         this._uuid = uuid
     }
+    get name(): string {
+        return this._name
+    }
+    set name(name: string) {
+        this._name = name
+    }
     get order_id(): string {
         return this._order_id
     }
     set order_id(order_id: string) {
         this._order_id = order_id
-    }
-    get created_by(): IEmbed {
-        return this._created_by
-    }
-    set created_by(created_by: IEmbed) {
-        this._created_by = created_by
     }
     get quantity(): number {
         return this._quantity
@@ -74,8 +74,8 @@ class OrderEntity extends BaseEntity {
     toJson(): object {
         return {
             uuid: this.uuid,
+            name: this.name,
             order_id: this.order_id,
-            created_by: this.created_by,
             quantity: this.quantity,
             menus: this.menus,
             created_at: this.created_at,
@@ -86,6 +86,7 @@ class OrderEntity extends BaseEntity {
     toListData(): {} {
         return {
             uuid: this.uuid,
+            name: this.name,
             order_id: this.order_id,
             quantity: this.quantity,
             menus: this.menus,
