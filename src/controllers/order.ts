@@ -16,8 +16,7 @@ class OrderController {
     async createOrUpdate(req: Request, res: Response): Promise<Response> {
         const user = req.user
         const { params: { uuid } } = req
-        const { body: { menu_uuid } } = req
-        return OrderService.createOrUpdate(uuid, menu_uuid, user)
+        return OrderService.createOrUpdate(uuid, new CreateCartRequest(req.body))
             .then((result) => {
                 return HttpResponse.created(req, res, result);
             })

@@ -1,5 +1,6 @@
 
 import BaseEntity from "./baseEntity";
+import { OrderStatus } from "./enums/orderStatus";
 import { IEmbed, IMenuEntity } from "./interfaces/menu";
 import { IOrderEntity, IOrderMenuEntity } from "./interfaces/order";
 
@@ -10,6 +11,7 @@ class OrderEntity extends BaseEntity {
     protected _order_id: string
     protected _quantity: number
     protected _menus: IOrderMenuEntity[]
+    protected _status: OrderStatus
     protected _created_at: Date | null
     protected _updated_at: Date | null
 
@@ -21,6 +23,7 @@ class OrderEntity extends BaseEntity {
         this._order_id = params.order_id
         this._quantity = params.quantity
         this._menus = params.menus
+        this._status = params.status
         this._quantity = params.quantity
         this._created_at = params.created_at
         this._updated_at = params.updated_at
@@ -57,6 +60,13 @@ class OrderEntity extends BaseEntity {
         this._menus = menus
     }
 
+    get status(): OrderStatus {
+        return this._status
+    }
+    set status(status: OrderStatus) {
+        this._status = status
+    }
+
     get created_at(): Date | null {
         return this._created_at
     }
@@ -78,6 +88,7 @@ class OrderEntity extends BaseEntity {
             order_id: this.order_id,
             quantity: this.quantity,
             menus: this.menus,
+            status: this.status,
             created_at: this.created_at,
             updated_at: this.updated_at,
         };
@@ -90,6 +101,7 @@ class OrderEntity extends BaseEntity {
             order_id: this.order_id,
             quantity: this.quantity,
             menus: this.menus,
+            status: this.status
 
         };
     }

@@ -8,6 +8,8 @@ import userRoutes from './routes/userRoutes'
 import menuRoutes from './routes/menu'
 import categoryRoutes from './routes/category'
 import orderRoutes from './routes/order'
+import couponRoutes from './routes/coupon'
+import paymentRoutes from './routes/payment'
 import err from './middleware/errorMiddleware'
 import { BadRequest } from '@tsed/exceptions'
 // import { v4 as uuidv4 } from 'uuid'
@@ -43,6 +45,8 @@ class App {
         this.app.use('/api/v1/menus', menuRoutes)
         this.app.use('/api/v1/categories', categoryRoutes)
         this.app.use('/api/v1/orders', orderRoutes)
+        this.app.use('/api/v1/coupons', couponRoutes)
+        this.app.use('/api/v1/payments', paymentRoutes)
     }
 
 }
