@@ -6,7 +6,7 @@ import CategoryController from '../controllers/category'
 class MenuRoutes extends BaseRoutes {
     public routes(): void {
         this.router.post('/', auth, CategoryController.create)
-
+        this.router.get('/', auth, CategoryController.findAll)
     }
 }
 
