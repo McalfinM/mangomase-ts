@@ -7,8 +7,8 @@ class PaymentController {
 
     async create(req: Request, res: Response): Promise<Response> {
         const { params: { order_uuid } } = req
-        await PaymentService.create(order_uuid, new CreatePaymentRequest(req.body))
-        return HttpResponse.created(req, res, { success: true })
+        const data = await PaymentService.create(order_uuid, new CreatePaymentRequest(req.body))
+        return HttpResponse.created(req, res, data.toDetailData())
     }
 
     // async findAll(req: Request, res: Response): Promise<Response> {

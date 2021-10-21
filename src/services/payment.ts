@@ -12,7 +12,7 @@ class PaymentService {
 
     private readonly paymentRepository = new PaymentRepository()
 
-    async create(order_uuid: string, data: CreatePaymentRequest): Promise<{ success: true }> {
+    async create(order_uuid: string, data: CreatePaymentRequest): Promise<PaymentEntity> {
         const order = await OrderService.findOne(order_uuid)
         if (!order) throw new ErrorNotFound('Order tidak ditemukan', '@Service Payment => Create')
         if (data.coupon_uuid) {
@@ -41,7 +41,7 @@ class PaymentService {
                 created_at: new Date(),
                 updated_at: new Date()
             })
-            await this.paymentRepository.create(entity)
+            return await this.paymentRepository.create(entity)
         } else {
             let total = 0
 
@@ -64,10 +64,10 @@ class PaymentService {
                 created_at: new Date(),
                 updated_at: new Date()
             })
-            await this.paymentRepository.create(entity)
+            return await this.paymentRepository.create(entity)
         }
 
-        return { success: true }
+
     }
 
     // async findAll(): Promise<{ data: PaymentEntity[] }> {
