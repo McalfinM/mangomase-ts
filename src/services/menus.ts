@@ -95,6 +95,7 @@ class MenuService {
             deleted_at: null
         })
         await this.menuRepository.update(productEntity)
+        this.updateForImage(productEntity.uuid, productEntity)
         return { success: true }
     }
 

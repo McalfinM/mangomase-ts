@@ -26,7 +26,10 @@ class MenuController {
     update(req: Request, res: Response): Response | Promise<Response> {
         const user = req.app.locals.credential
         const { params: { uuid } } = req
-        return MenuService.update(uuid, new CreateMenuRequest(req.body))
+        return MenuService.update(uuid, new CreateMenuRequest({
+            ...req.body,
+            image: req.file?.path
+        }))
             .then((result) => HttpResponse.success(req, res, result))
             .catch((err) => HttpErrorHandler(err, req, res));
     }
