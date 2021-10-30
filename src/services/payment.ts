@@ -8,6 +8,8 @@ import OrderService from './order'
 import CouponService from './coupon'
 import { PaymentMethod } from '../entities/enums/paymentMethod'
 import e from 'express'
+import GetPaymentRequest from '../request/getPaymentRequest'
+import GetPaymentSpecification from '../repositories/specifications/getPaymentSpecification'
 class PaymentService {
 
     private readonly paymentRepository = new PaymentRepository()
@@ -70,9 +72,17 @@ class PaymentService {
 
     }
 
-    // async findAll(): Promise<{ data: PaymentEntity[] }> {
-    //     return await this.paymentRepository.findAll()
-    // }
+    async findAll(
+        data: GetPaymentRequest
+    ): Promise<{
+        total: number;
+        data: PaymentEntity[];
+    }> {
+        const order = await this.paymentRepository.findAll(
+            new GetPaymentSpecification(data)
+        )
+        return order
+    }
 
     async findOne(uuid: string): Promise<PaymentEntity | null> {
         return await this.paymentRepository.findOne(uuid)
