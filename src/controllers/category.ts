@@ -14,7 +14,7 @@ class CategoryController {
     async findAll(req: Request, res: Response): Promise<Response> {
         return await CategoryService.findAll()
             .then(result => {
-                return HttpResponse.success(req, res, result.data)
+                return HttpResponse.success(req, res, result)
             })
     }
 
