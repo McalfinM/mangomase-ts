@@ -29,7 +29,7 @@ class OrderController {
         const user = req.user
         return OrderService.findOne(uuid)
             .then((result) => {
-                return HttpResponse.success(req, res, result);
+                return HttpResponse.success(req, res, result?.toDetailData());
             })
             .catch((err) => HttpErrorHandler(err, req, res));
     }

@@ -106,6 +106,18 @@ class OrderEntity extends BaseEntity {
         };
     }
 
+    toDetailData(): {} {
+        return {
+            uuid: this.uuid,
+            name: this.name,
+            order_id: this.order_id,
+            quantity: this.quantity,
+            carts: this.menus,
+            status: this.status
+
+        };
+    }
+
 }
 
 export default OrderEntity;
