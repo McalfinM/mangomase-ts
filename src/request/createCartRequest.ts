@@ -1,26 +1,25 @@
+
+export interface ICartsRequest {
+    menu_uuid: string
+    quantity: number
+}
 class CreateCartRequest {
-    protected _menu_uuid: string;
-    protected _uuid: string
-    protected _name: string
+    protected _customer_name: string;
+    protected _carts: ICartsRequest[]
     constructor(body: {
-        menu_uuid: string
-        uuid: string
-        name: string
+        customer_name: string
+        carts: ICartsRequest[]
     }) {
-        this._menu_uuid = body.menu_uuid;
-        this._uuid = body.uuid
-        this._name = body.name
+        this._customer_name = body.customer_name
+        this._carts = body.carts
+
     }
 
-    get menu_uuid(): string {
-        return this._menu_uuid
+    get customer_name(): string {
+        return this._customer_name
     }
-
-    get uuid(): string {
-        return this._uuid
-    }
-    get name(): string {
-        return this._name
+    get carts(): ICartsRequest[] {
+        return this._carts
     }
 
 }

@@ -19,7 +19,7 @@ class OrderService {
     async create(data: CreateCartRequest): Promise<{ uuid: string }> {
         let entityCart = new OrderEntity({
             uuid: uuidV4(),
-            name: data.name ?? "",
+            name: data.customer_name ?? "",
             menus: [],
             quantity: 0,
             status: OrderStatus.ORDER,
@@ -36,49 +36,42 @@ class OrderService {
 
     async createOrUpdate(uuid: string, data: CreateCartRequest): Promise<{ success: true }> {
         const searchCart = await this.orderRepository.findOneMyCart(uuid)
-        let menus: IOrderMenuEntity[] = []
 
         if (!searchCart) {
             throw new ErrorNotFound('Keranjang tidak ditemukan', '@Service Order => Create Or Update')
         } else {
-            const searchProduct = await MenuService.findOne(data.menu_uuid)
-            if (!searchProduct) throw new ErrorNotFound('Product not found', '@Service create or update cart')
-            for (let i = 0; i < searchCart.menus.length; i++) {
+            let menu = []
+            for (let i = 0; i < data.carts.length; i++) {
+                const searchProduct = await MenuService.findOne(data.carts[i].menu_uuid)
+                if (!searchProduct) throw new ErrorNotFound('Product tidak ada', '@Service create or update cart')
+                menu.push({
+                    uuid: uuidV4(),
+                    name: searchProduct.name,
+                    image: searchProduct.image,
+                    price: searchProduct.price,
+                    menu_uuid: searchProduct.uuid,
+                    quantity: data.carts[i].quantity
+                })
 
-                if (searchCart.menus[i].uuid === data.menu_uuid) {
-
-                    await this.orderRepository.delete(searchCart.uuid ?? '', data.menu_uuid)
-                    searchCart.menus[i].quantity += 1
-                    if (data.name) searchCart.name = data.name
-
-                    const quantity = searchCart.quantity = searchCart.menus.reduce(((prev, curr) => Number(prev) + Number(curr.quantity)), 0)
-                    return await this.orderRepository.update(searchCart);
-
-                }
             }
-            const quantity = searchCart.quantity = searchCart.menus.reduce(((prev, curr) => Number(prev) + Number(curr.quantity)), 0)
 
-            menus.push({
-                uuid: searchProduct.uuid,
-                name: searchProduct?.name ?? '',
-                image: searchProduct?.image ?? '',
-                price: searchProduct?.price ?? 0,
-                menu_uuid: searchProduct?.uuid ?? '',
-                quantity: 1
-            })
-            let concat = searchCart.menus.concat(menus)
 
             let entityCart = new OrderEntity({
                 uuid: searchCart.uuid,
-                menus: concat,
-                name: data.name ?? searchCart.name,
-                quantity: quantity == 0 ? 1 : quantity,
+                menus: menu,
+                name: data.customer_name ?? searchCart.name,
+                quantity: searchCart.quantity,
                 status: OrderStatus.ORDER,
                 updated_at: new Date(),
                 created_at: new Date(),
                 order_id: searchCart.order_id
             })
-            await this.orderRepository.update(entityCart);
+            const total_quentity = menu.reduce((prev, curr) => Number(prev) + Number(curr.quantity), 0)
+            entityCart.quantity = total_quentity
+
+            await this.orderRepository.update(entityCart)
+
+
 
         }
 
