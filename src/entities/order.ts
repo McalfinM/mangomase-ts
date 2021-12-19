@@ -100,7 +100,7 @@ class OrderEntity extends BaseEntity {
             name: this.name,
             order_id: this.order_id,
             quantity: this.quantity,
-            menus: this.menus,
+            // menus: this.menus,
             status: this.status
 
         };
