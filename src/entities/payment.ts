@@ -164,6 +164,8 @@ class PaymentEntity extends BaseEntity {
             no_invoice: this.no_invoice,
             quantity: this.quantity,
             total_price: this.total_price,
+            name: this.name,
+            created_at: this.created_at
         };
     }
 
@@ -171,6 +173,7 @@ class PaymentEntity extends BaseEntity {
         return {
             uuid: this.uuid,
             no_invoice: this.no_invoice,
+            name: this.name,
             phone: this.phone,
             email: this.email,
             notes: this.notes,
@@ -180,6 +183,7 @@ class PaymentEntity extends BaseEntity {
             total_price: this.total_price,
             discount: this.discount,
             total_after_discount: this.total_after_discount,
+            created_at: this.created_at
         };
     }
 }

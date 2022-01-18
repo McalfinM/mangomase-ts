@@ -101,6 +101,7 @@ class OrderEntity extends BaseEntity {
             order_id: this.order_id,
             quantity: this.quantity,
             // menus: this.menus,
+            created_at: this.created_at?.toDateString(),
             status: this.status
 
         };
@@ -113,7 +114,8 @@ class OrderEntity extends BaseEntity {
             order_id: this.order_id,
             quantity: this.quantity,
             carts: this.menus,
-            status: this.status
+            status: this.status,
+            created_at: this.created_at?.toDateString()
 
         };
     }
