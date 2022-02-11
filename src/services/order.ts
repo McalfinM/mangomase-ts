@@ -17,10 +17,24 @@ class OrderService {
     private readonly orderRepository = new OrderRepository()
 
     async create(data: CreateCartRequest): Promise<{ uuid: string }> {
+        let menu = []
+        for (let i = 0; i < data.carts.length; i++) {
+            const searchProduct = await MenuService.findOne(data.carts[i].menu_uuid)
+            if (!searchProduct) throw new ErrorNotFound('Product tidak ada', '@Service create or update cart')
+            menu.push({
+                uuid: uuidV4(),
+                name: searchProduct.name,
+                image: searchProduct.image,
+                price: searchProduct.price,
+                menu_uuid: searchProduct.uuid,
+                quantity: data.carts[i].quantity
+            })
+        }
+
         let entityCart = new OrderEntity({
             uuid: uuidV4(),
             name: data.customer_name ?? "",
-            menus: [],
+            menus: menu,
             quantity: 0,
             status: OrderStatus.ORDER,
             updated_at: new Date(),
