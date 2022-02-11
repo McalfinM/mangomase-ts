@@ -35,7 +35,7 @@ class OrderService {
             uuid: uuidV4(),
             name: data.customer_name ?? "",
             menus: menu,
-            quantity: 0,
+            quantity: menu.reduce((prev, curr) => prev + curr.quantity, 0),
             status: OrderStatus.ORDER,
             updated_at: new Date(),
             created_at: new Date(),
