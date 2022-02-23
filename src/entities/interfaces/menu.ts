@@ -13,6 +13,7 @@ export interface IMenuEntity {
     image: string
     cloudinary_id: string
     category: IEmbed
+    stock: number | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null

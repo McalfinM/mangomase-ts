@@ -11,6 +11,7 @@ class MenuEntity extends BaseEntity {
     protected _image: string
     protected _cloudinary_id: string
     protected _category: IEmbed
+    protected _stock: number | null
     protected _created_at: Date | null
     protected _updated_at: Date | null
     protected _deleted_at: Date | null
@@ -24,6 +25,7 @@ class MenuEntity extends BaseEntity {
         this._image = params.image
         this._cloudinary_id = params.cloudinary_id
         this._category = params.category
+        this._stock = params.stock
         this._created_at = params.created_at
         this._updated_at = params.updated_at
         this._deleted_at = params.deleted_at
@@ -79,6 +81,13 @@ class MenuEntity extends BaseEntity {
         this._category = category
     }
 
+    get stock(): number | null {
+        return this._stock
+    }
+    set stock(stock: number | null) {
+        this._stock = stock
+    }
+
     get created_at(): Date | null {
         return this._created_at
     }
@@ -119,6 +128,7 @@ class MenuEntity extends BaseEntity {
             slug: this.slug,
             price: this.price,
             image: this.image,
+            category: this._category.name
         };
     }
 

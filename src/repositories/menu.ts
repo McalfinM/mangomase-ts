@@ -14,6 +14,7 @@ class MenuRepository {
             image: data.image,
             price: data.price,
             slug: data.slug,
+            stock: data.stock,
             created_at: data.created_at,
             updated_at: data.updated_at,
             deleted_at: data.deleted_at

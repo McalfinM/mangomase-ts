@@ -25,6 +25,7 @@ class MenuService {
             image: 'https://res.cloudinary.com/dti2eqvdi/image/upload/v1627998960/profile/No_Image_Available_kvppd7.jpg',
             cloudinary_id: "",
             price: data.price,
+            stock: null,
             category: {
                 uuid: category?.uuid,
                 name: category?.name
@@ -86,6 +87,7 @@ class MenuService {
             image: data.image ?? product.image,
             cloudinary_id: product.cloudinary_id,
             price: data.price,
+            stock: null,
             category: {
                 uuid: category?.uuid,
                 name: category?.name
