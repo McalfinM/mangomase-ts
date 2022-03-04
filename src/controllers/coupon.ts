@@ -13,7 +13,7 @@ class CouponController {
     async findAll(req: Request, res: Response): Promise<Response> {
         return await CouponService.findAll()
             .then(result => {
-                return HttpResponse.success(req, res, result.data.map(v => v.toListData()))
+                return HttpResponse.success(req, res, { data: result.data.map(v => v.toListData()) })
             })
     }
 
